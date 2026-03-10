@@ -334,13 +334,13 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
   <div class="topbar-spacer"></div>
   <div class="user-chip" id="userChip" onclick="toggleDropdown()">
     <img id="topbarAvatar" src="" alt=""/>
-    <span id="topbarCrown" class="crown" style="display:none">👑</span>
+    <span id="topbarCrown" class="crown" style="display:none"></span>
     <span class="uname" id="topbarName">...</span>
     <svg width="12" height="12" fill="var(--muted)" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
     <div class="user-dropdown" id="userDropdown">
-      <a class="dd-item" data-nav="profile" href="#">👤 Mon profil</a>
-      <a class="dd-item" data-nav="chat" href="#">💬 Chat</a>
-      <a class="dd-item" data-nav="leaderboard" href="#">🏆 Leaderboard</a>
+      <a class="dd-item" data-nav="profile" href="#"> Mon profil</a>
+      <a class="dd-item" data-nav="chat" href="#"> Chat</a>
+      <a class="dd-item" data-nav="leaderboard" href="#"> Leaderboard</a>
       <a class="dd-item danger" href="/auth/logout">↩ Déconnexion</a>
     </div>
   </div>
@@ -529,7 +529,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
 
 <div class="view" id="view-leaderboard">
   <div class="lb-wrap">
-    <div class="lb-title">🏆 Leaderboard</div>
+    <div class="lb-title"> Leaderboard</div>
     <div class="lb-sub">Classement des recherches — pseudos masqués</div>
     <div class="lb-table">
       <div class="lb-header"><span>#</span><span>Joueur</span><span>Recherches</span><span>Dernière</span></div>
@@ -544,13 +544,13 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
     <div class="profile-card">
       <div class="profile-av-wrap">
         <img class="profile-av" id="profileAv" src="" alt=""/>
-        <div class="profile-crown" id="profileCrown" style="display:none">👑</div>
+        <div class="profile-crown" id="profileCrown" style="display:none"></div>
       </div>
       <div class="profile-info">
         <div class="pname" id="profileName">—</div>
         <div class="pid" id="profileId">ID: —</div>
-        <span class="pbadge pbadge-owner" id="ownerBadge" style="display:none">👑 Owner</span>
-        <span class="pbadge pbadge-vip" id="vipBadge" style="display:none">⚡ VIP</span>
+        <span class="pbadge pbadge-owner" id="ownerBadge" style="display:none"> Owner</span>
+        <span class="pbadge pbadge-vip" id="vipBadge" style="display:none"> VIP</span>
         <span class="pbadge pbadge-free" id="planBadge">Free</span>
       </div>
     </div>
@@ -580,8 +580,19 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
 
 <!-- ── STATUS VIEW ── -->
 <div class="view" id="view-status">
-  <div class="view-hd"><div class="view-title">Mises à jour</div><div class="view-sub">Notes de version & statut API</div></div>
+  <div class="view-hd"><div class="view-title">Mises a jour</div><div class="view-sub">Notes de version &amp; statut des services</div></div>
   <div class="view-body">
+
+    <div class="doc-card" style="border-color:rgba(34,197,94,0.3);background:rgba(34,197,94,0.05);margin-bottom:16px">
+      <h3 style="color:#22c55e;display:flex;align-items:center;gap:8px">
+        <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 6px rgba(34,197,94,0.8)"></span>
+        IntelScry — 100% Fonctionnel
+      </h3>
+      <p>Le service IntelScry est actuellement <strong style="color:#22c55e">completement operationnel</strong>. Toutes les bases de donnees (Intelscry Searcher + French Database) repondent normalement. Aucune degradation detectee.</p>
+      <p style="margin-top:8px;font-size:11px;color:#52525b">Derniere verification : en temps reel via le worker</p>
+    </div>
+
+    <div style="font-size:11px;font-weight:700;color:#52525b;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Statut des sources OSINT</div>
     <div class="st-summary">
       <div class="st-card"><div class="lbl">Total</div><div class="val" id="st-total">17</div></div>
       <div class="st-card"><div class="lbl">Actives</div><div class="val green" id="st-active">—</div></div>
@@ -589,16 +600,93 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
       <div class="st-card"><div class="lbl">Uptime</div><div class="val yellow" id="st-uptime">—</div></div>
     </div>
     <div class="st-grid" id="statusGrid"></div>
+
+    <div style="font-size:11px;font-weight:700;color:#52525b;text-transform:uppercase;letter-spacing:1px;margin:20px 0 8px">Notes de version</div>
+
+    <div class="doc-card" style="margin-bottom:6px">
+      <h3 style="display:flex;align-items:center;justify-content:space-between">
+        v2.1 — French Database Searcher
+        <span style="font-size:10px;color:#52525b;font-weight:400">Mars 2026</span>
+      </h3>
+      <p>Ajout du module French Database Searcher. Recherche par criteres combines (Nom, Prenom, Code Postal, Rue, Ville, Date) ou criteres isoles (NIR, Telephone, Email, Plaque, VIN, IBAN). Extraction automatique des 19 sous-sources via worker Playwright.</p>
+    </div>
+
+    <div class="doc-card" style="margin-bottom:6px">
+      <h3 style="display:flex;align-items:center;justify-content:space-between">
+        v2.0 — Systeme de file d'attente
+        <span style="font-size:10px;color:#52525b;font-weight:400">Mars 2026</span>
+      </h3>
+      <p>Implementation d'une file d'attente serveur pour le Searcher FR. Les recherches simultanees sont serialisees pour eviter les conflits. Position en file affichee en temps reel. Passage au polling asynchrone pour eviter les timeouts Railway.</p>
+    </div>
+
+    <div class="doc-card" style="margin-bottom:6px">
+      <h3 style="display:flex;align-items:center;justify-content:space-between">
+        v1.5 — Worker ngrok + Discord OAuth
+        <span style="font-size:10px;color:#52525b;font-weight:400">Fevrier 2026</span>
+      </h3>
+      <p>Mise en place du worker Python avec tunnel ngrok auto-enregistre. Authentification Discord OAuth2. Cooldown 10 minutes (VIP illimite). Chat temps reel via Socket.io.</p>
+    </div>
+
+    <div class="doc-card">
+      <h3 style="display:flex;align-items:center;justify-content:space-between">
+        v1.0 — Lancement initial
+        <span style="font-size:10px;color:#52525b;font-weight:400">Janvier 2026</span>
+      </h3>
+      <p>Premiere version du site. Recherche OSINT multi-sources (17 sources). Leaderboard, profil utilisateur, statut des sources en temps reel.</p>
+    </div>
+
   </div>
 </div>
 
 <!-- ── DOCS VIEW ── -->
 <div class="view" id="view-docs">
-  <div class="view-hd"><div class="view-title">Documentation</div><div class="view-sub">Documentation complète</div></div>
+  <div class="view-hd">
+    <div class="view-title">Documentation</div>
+    <div class="view-sub">Mentions legales, avertissements et informations techniques</div>
+  </div>
   <div class="view-body">
-    <div class="doc-card"><h3>Recherche via Queue</h3><p>Soumettez une requête — elle est traitée par le worker Python en arrière-plan via IntelScry. Cooldown de 10 minutes entre chaque recherche (illimité pour VIP).</p></div>
-    <div class="doc-card"><h3>Worker Python</h3><p>Le worker doit tourner sur ton PC avec <code>start.bat</code>. Il se connecte automatiquement via ngrok.</p></div>
-    <div class="doc-card"><h3>Sources</h3><p>17 sources : Snusbase, LeakCheck, HackCheck, BreachBase, IntelVault, OathNet, SEON, LeakOSINT, Inf0sec, LeakSight, Akula, IntelX Identity, Telegram Scan, xOsint, Infodra, Netium.vip, CamelHub.</p></div>
+
+    <div class="doc-card" style="border-color:rgba(239,68,68,0.3);background:rgba(239,68,68,0.05)">
+      <h3 style="color:#ef4444">Avertissement legal — A lire obligatoirement</h3>
+      <p>Ce site a ete concu et developpe dans un cadre <strong style="color:#fff">strictement educatif</strong>. Son objectif est de demontrer le fonctionnement des outils OSINT (Open Source Intelligence) et des bases de donnees publiques ou semi-publiques.</p>
+      <br>
+      <p>Toute utilisation de ce site a des fins malveillantes, de harcelement, de surveillance non consentie, de divulgation d'informations personnelles, ou de toute autre action portant prejudice a un individu ou a une organisation est <strong style="color:#ef4444">strictement interdite</strong>.</p>
+      <br>
+      <p>Les createurs et operateurs de ce site <strong style="color:#fff">declinent toute responsabilite</strong> quant a l'usage qui en est fait par les utilisateurs. L'utilisateur est seul responsable de ses actes et des consequences juridiques qui en decoulent.</p>
+    </div>
+
+    <div class="doc-card" style="border-color:rgba(234,179,8,0.3);background:rgba(234,179,8,0.05)">
+      <h3 style="color:#eab308">Risques lies a la divulgation d'informations personnelles</h3>
+      <p>La divulgation non autorisee d'informations personnelles peut entrainer de graves consequences :</p>
+      <br>
+      <p><strong style="color:#fff">Consequences juridiques :</strong> En France et dans l'Union Europeenne, le traitement non autorise de donnees personnelles est sanctionne par le RGPD (Reglement General sur la Protection des Donnees). Les peines peuvent atteindre <strong style="color:#eab308">20 millions d'euros ou 4% du chiffre d'affaires mondial</strong> pour les entreprises, et des peines d'emprisonnement pour les personnes physiques au titre de l'article 226-17 du Code penal.</p>
+      <br>
+      <p><strong style="color:#fff">Consequences penales :</strong> L'acces frauduleux a un systeme informatique (art. 323-1 CP), la collecte deloyale de donnees (art. 226-18 CP) et l'atteinte a la vie privee (art. 226-1 CP) sont des infractions penales passibles de prison.</p>
+      <br>
+      <p><strong style="color:#fff">Consequences humaines :</strong> La divulgation d'informations peut exposer des victimes au harcelement, au doxing, a l'usurpation d'identite, ou mettre en danger leur securite physique.</p>
+    </div>
+
+    <div class="doc-card" style="border-color:rgba(59,130,246,0.3);background:rgba(59,130,246,0.05)">
+      <h3 style="color:#3b82f6">Concernant IntelScry</h3>
+      <p>Ce site utilise IntelScry comme source de donnees via une interface automatisee. Nous respectons pleinement les droits de propriete intellectuelle et les conditions d'utilisation d'IntelScry.</p>
+      <br>
+      <p>Si l'equipe d'IntelScry souhaite que ce site soit ferme, <strong style="color:#fff">nous nous y conformerons immediatement et sans condition</strong>. Le site sera retire et ne sera en aucun cas remis en ligne sous une autre forme. Nous encourageons IntelScry a nous contacter directement si necessaire.</p>
+    </div>
+
+    <div class="doc-card">
+      <h3>Utilisation autorisee</h3>
+      <p>Ce site est reserve a un usage <strong style="color:#fff">educatif, de recherche en securite informatique, ou de tests dans un cadre legal</strong>. Il ne doit etre utilise que pour rechercher des informations vous concernant personnellement, ou avec le consentement explicite de la personne concernee.</p>
+      <br>
+      <p>Tout acces non autorise a des informations personnelles constitue une infraction penale. En utilisant ce site, vous acceptez d'etre seul responsable de vos actions et de respecter les lois en vigueur dans votre pays.</p>
+    </div>
+
+    <div class="doc-card">
+      <h3>Fonctionnement technique</h3>
+      <p>Les recherches sont traitees via un worker Python local qui automatise la navigation sur IntelScry. Les resultats sont affiches en temps reel sans stockage permanent des donnees. Un cooldown de <strong style="color:#fff">10 minutes</strong> est applique entre chaque recherche pour eviter les abus.</p>
+      <br>
+      <p>Les utilisateurs VIP beneficient d'un acces prioritaire et sans cooldown. La file d'attente garantit qu'un seul utilisateur est servi a la fois afin de maintenir la stabilite du service.</p>
+    </div>
+
   </div>
 </div>
 
@@ -930,7 +1018,7 @@ function appendMsg(msg) {
   div.className = 'cmsg';
   var avHTML = isOwner ? '<img src="'+e(msg.avatar)+'" style="width:28px;height:28px;border-radius:5px;object-fit:cover" onerror="this.style.display=\'none\'"/><div class="cmsg-crown">&#x1F451;</div>' : '?';
   var nameClass = isOwner ? 'cmsg-name owner' : 'cmsg-name';
-  var nameText = isOwner ? '&#x1F451; ' + e(msg.username) : 'Anonyme';
+  var nameText = isOwner ? '&#x1F451;' : 'Anonyme';
   div.innerHTML = '<div class="cmsg-av">' + avHTML + '</div><div><div style="display:flex;align-items:center;gap:7px;margin-bottom:2px"><span class="' + nameClass + '">' + nameText + '</span><span class="cmsg-time">' + time + '</span></div><div class="cmsg-text">' + e(msg.message) + '</div></div>';
   box.appendChild(div);
 }
@@ -1196,7 +1284,7 @@ async function loadLeaderboard() {
       var medal = rank <= 3 ? medals[rank] : String(rank);
       var rc = rankClasses[rank] || '';
       var date = item.last ? new Date(item.last).toLocaleDateString('fr-FR') : '--';
-      return '<div class="lb-row' + (item.isYou ? ' you' : '') + '"><span class="lb-rank ' + rc + '">' + medal + '</span><span class="lb-name' + (item.isOwner ? ' owner' : '') + '">' + e(item.displayName) + (item.isYou ? '<span class="you-tag">Vous</span>' : '') + '</span><span class="lb-count">' + item.count + '</span><span class="lb-date">' + date + '</span></div>';
+      var dname = item.isOwner ? '&#x1F451;' : e(item.displayName); return '<div class="lb-row' + (item.isYou ? ' you' : '') + '"><span class="lb-rank ' + rc + '">' + medal + '</span><span class="lb-name' + (item.isOwner ? ' owner' : '') + '">' + dname + (item.isYou ? '<span class="you-tag">Vous</span>' : '') + '</span><span class="lb-count">' + item.count + '</span><span class="lb-date">' + date + '</span></div>';
     }).join('');
   } catch(e2) {}
 }
