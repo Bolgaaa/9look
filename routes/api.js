@@ -189,7 +189,7 @@ router.post('/searcher', ensureAuth, async (req, res) => {
 
     // Wait for result
     let result = null;
-    for (let i = 0; i < 120; i++) {
+    for (let i = 0; i < 200; i++) {
       await new Promise(r => setTimeout(r, 1000));
       if (jobResults[job_id]) { result = jobResults[job_id]; break; }
     }
