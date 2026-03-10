@@ -1242,9 +1242,8 @@ function showToast(msg, type) {
 function e(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
-</script>
-</body>
-</html>// ── Searcher FR ───────────────────────────────────────────────────────────────
+
+// ── Searcher FR ───────────────────────────────────────────────────────────────
 var searcherCriteria = []; // [{key, label, value}]
 var lastSearcherResults = null;
 
@@ -1289,7 +1288,8 @@ function renderCritRows() {
   searcherCriteria.forEach(function(c, i) {
     var row = document.createElement('div');
     row.className = 'crit-row-card';
-    row.innerHTML = '<div class="crit-row-label">' + e(c.label) + '</div><input class="crit-row-input" type="text" placeholder="Valeur..." value="' + e(c.value) + '" oninput="searcherCriteria['+i+'].value=this.value"><button class="crit-row-del" onclick="removeCrit(''+c.key+'')">&#x2715;</button>';
+    var delKey = c.key.replace(/'/g, '');
+    row.innerHTML = '<div class="crit-row-label">' + e(c.label) + '</div><input class="crit-row-input" type="text" placeholder="Valeur..." value="' + e(c.value) + '" oninput="searcherCriteria['+i+'].value=this.value"><button class="crit-row-del" onclick="removeCrit(\"'+delKey+'\")">✕</button>';
     area.appendChild(row);
   });
 }
@@ -1299,5 +1299,6 @@ function exportSearcherJSON() {
   dl(JSON.stringify(lastSearcherResults, null, 2), 'searcher.json', 'application/json');
   showToast('JSON telecharge', 'ok');
 }
-
-
+</script>
+</body>
+</html>
