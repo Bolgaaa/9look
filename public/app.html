@@ -519,6 +519,236 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
   .bottom-nav { height: 52px; }
   .layout { padding-bottom: 52px; }
 }
+
+/* ═══════════════════════════════════════
+   ADS
+═══════════════════════════════════════ */
+
+/* TOP BANNER — 1200x400 ratio */
+.ad-banner-top {
+  margin: 16px 40px 0;
+  flex-shrink: 0;
+}
+.ad-banner-inner {
+  position: relative;
+  background: linear-gradient(120deg, #0a0a0a 0%, #111 40%, #0d0d14 100%);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+.ad-banner-inner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(88,101,242,0.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+.ad-banner-inner::after {
+  content: '';
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 160px; height: 160px;
+  background: radial-gradient(circle, rgba(88,101,242,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+.ad-badge {
+  position: absolute;
+  top: 6px; left: 8px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--muted);
+  opacity: 0.5;
+}
+.ad-banner-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+  z-index: 1;
+}
+.ad-banner-logo {
+  width: 48px; height: 48px;
+  background: rgba(88,101,242,0.15);
+  border: 1px solid rgba(88,101,242,0.3);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #7289da;
+  flex-shrink: 0;
+}
+.ad-banner-text { flex: 1; }
+.ad-banner-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 3px;
+}
+.ad-banner-desc {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.ad-banner-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #5865f2;
+  color: #fff;
+  border-radius: 8px;
+  padding: 9px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  flex-shrink: 0;
+  transition: background 0.15s, transform 0.1s;
+  z-index: 1;
+}
+.ad-banner-cta:hover { background: #4752c4; transform: translateY(-1px); }
+.ad-close {
+  position: absolute;
+  top: 8px; right: 10px;
+  background: none;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 14px;
+  padding: 2px 4px;
+  z-index: 2;
+  transition: color 0.15s;
+}
+.ad-close:hover { color: var(--text); }
+
+/* RIGHT SIDEBAR AD — 1080x1920 ratio (portrait) */
+.ad-sidebar-right {
+  width: 180px;
+  flex-shrink: 0;
+  background: var(--bg);
+  border-left: 1px solid var(--border);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 12px 10px;
+}
+.ad-sidebar-right::-webkit-scrollbar { width: 0; }
+.ad-sidebar-inner {
+  background: linear-gradient(180deg, #0d0d18 0%, #0a0a0a 100%);
+  border: 1px solid rgba(88,101,242,0.2);
+  border-radius: 10px;
+  padding: 16px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  overflow: hidden;
+  flex: 1;
+}
+.ad-sidebar-inner::before {
+  content: '';
+  position: absolute;
+  top: -30px; left: -30px;
+  width: 140px; height: 140px;
+  background: radial-gradient(circle, rgba(88,101,242,0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+.ad-sidebar-logo {
+  width: 56px; height: 56px;
+  background: rgba(88,101,242,0.15);
+  border: 1px solid rgba(88,101,242,0.35);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #7289da;
+  z-index: 1;
+}
+.ad-sidebar-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  text-align: center;
+  z-index: 1;
+}
+.ad-sidebar-desc {
+  font-size: 10px;
+  color: var(--muted);
+  text-align: center;
+  line-height: 1.6;
+  z-index: 1;
+}
+.ad-sidebar-stats {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  z-index: 1;
+}
+.ad-stat {
+  flex: 1;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  padding: 6px 4px;
+  text-align: center;
+}
+.ad-stat-val {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+}
+.ad-stat-lbl {
+  display: block;
+  font-size: 9px;
+  color: var(--muted);
+  margin-top: 1px;
+}
+.ad-sidebar-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  width: 100%;
+  background: #5865f2;
+  color: #fff;
+  border-radius: 8px;
+  padding: 9px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 0.15s, transform 0.1s;
+  z-index: 1;
+}
+.ad-sidebar-btn:hover { background: #4752c4; transform: translateY(-1px); }
+.ad-partner-note {
+  font-size: 9px;
+  color: var(--muted);
+  text-align: center;
+  line-height: 1.7;
+  z-index: 1;
+}
+.ad-partner-note a {
+  color: #5865f2;
+  text-decoration: none;
+  font-weight: 600;
+}
+.ad-partner-note a:hover { text-decoration: underline; }
+
+/* Hide right ad on mobile/tablet */
+@media (max-width: 1100px) {
+  .ad-sidebar-right { display: none; }
+}
+@media (max-width: 640px) {
+  .ad-banner-top { margin: 10px 12px 0; }
+  .ad-banner-logo { width: 36px; height: 36px; }
+  .ad-banner-title { font-size: 13px; }
+  .ad-banner-desc { display: none; }
+  .ad-banner-cta { padding: 8px 14px; font-size: 12px; }
+}
 </style>
 </head>
 <body>
@@ -599,7 +829,25 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
 
 <!-- ── SEARCH VIEW ── -->
 <div class="view active" id="view-search">
-  <div class="search-hero">
+  <!-- TOP BANNER AD 1200x400 -->
+    <div class="ad-banner-top" id="adBannerTop">
+      <div class="ad-banner-inner">
+        <div class="ad-badge">PUB</div>
+        <div class="ad-banner-content">
+          <div class="ad-banner-logo">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <div class="ad-banner-text">
+            <div class="ad-banner-title">Votre Serveur Discord</div>
+            <div class="ad-banner-desc">Description de votre serveur ou service — Modifiez ce texte dans les fichiers</div>
+          </div>
+          <a href="https://discord.gg/TABKcTPa" target="_blank" class="ad-banner-cta">Rejoindre</a>
+        </div>
+        <button class="ad-close" onclick="document.getElementById('adBannerTop').style.display='none'">&#x2715;</button>
+      </div>
+    </div>
+
+    <div class="search-hero">
     <div class="sources-pill"><span class="pill-dot"></span><span id="hero-sources-count">17 sources sélectionnées</span></div>
     <h1 class="hero-title">Recherche Multi-Source</h1>
     <p class="hero-sub">Email, username, IP, téléphone, domaine — via IntelScry en arrière-plan</p>
@@ -908,6 +1156,29 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
   </div>
 </div>
 
+  <!-- RIGHT AD COLUMN 1080x1920 ratio -->
+  <aside class="ad-sidebar-right">
+    <div class="ad-sidebar-inner">
+      <div class="ad-badge">PUB</div>
+      <div class="ad-sidebar-logo">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      </div>
+      <div class="ad-sidebar-name">Votre Serveur</div>
+      <div class="ad-sidebar-desc">Modifiez ce texte et ce logo dans les fichiers source pour personnaliser cette publicite.</div>
+      <div class="ad-sidebar-stats">
+        <div class="ad-stat"><span class="ad-stat-val">—</span><span class="ad-stat-lbl">membres</span></div>
+        <div class="ad-stat"><span class="ad-stat-val">—</span><span class="ad-stat-lbl">en ligne</span></div>
+      </div>
+      <a href="https://discord.gg/TABKcTPa" target="_blank" class="ad-sidebar-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057.1 18.08.11 18.1.128 18.116a19.879 19.879 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+        Rejoindre le serveur
+      </a>
+      <div class="ad-partner-note">
+        Advertise ici ?<br>
+        <a href="https://discord.gg/TABKcTPa" target="_blank">Ouvrir un ticket</a>
+      </div>
+    </div>
+  </aside>
 </div><!-- /layout -->
 <div class="toast-container" id="toastContainer"></div>
 

@@ -5,7 +5,7 @@ const { ensureAuth } = require('../middleware/auth');
 
 const VIP_IDS     = new Set(['1399858722137968650','1476955134280863774']);
 const OWNER_ID    = '1476955134280863774';
-const COOLDOWN_MS = 10 * 60 * 1000;
+const COOLDOWN_MS = 1 * 60 * 1000;
 
 // State
 const cooldowns   = {};   // { user_id: timestamp }
