@@ -524,220 +524,6 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
    ADS
 ═══════════════════════════════════════ */
 
-/* TOP BANNER — 1200x400 ratio */
-.ad-banner-top {
-  margin: 16px 40px 0;
-  flex-shrink: 0;
-}
-.ad-banner-inner {
-  position: relative;
-  background: linear-gradient(120deg, #0a0a0a 0%, #111 40%, #0d0d14 100%);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 10px;
-  padding: 16px 20px;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-}
-.ad-banner-inner::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(88,101,242,0.08) 0%, transparent 60%);
-  pointer-events: none;
-}
-.ad-banner-inner::after {
-  content: '';
-  position: absolute;
-  top: -40px; right: -40px;
-  width: 160px; height: 160px;
-  background: radial-gradient(circle, rgba(88,101,242,0.12) 0%, transparent 70%);
-  pointer-events: none;
-}
-.ad-badge {
-  position: absolute;
-  top: 6px; left: 8px;
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  color: var(--muted);
-  opacity: 0.5;
-}
-.ad-banner-content {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  flex: 1;
-  z-index: 1;
-}
-.ad-banner-logo {
-  width: 48px; height: 48px;
-  background: rgba(88,101,242,0.15);
-  border: 1px solid rgba(88,101,242,0.3);
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #7289da;
-  flex-shrink: 0;
-}
-.ad-banner-text { flex: 1; }
-.ad-banner-title {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--text);
-  margin-bottom: 3px;
-}
-.ad-banner-desc {
-  font-size: 12px;
-  color: var(--muted);
-  line-height: 1.5;
-}
-.ad-banner-cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: #5865f2;
-  color: #fff;
-  border-radius: 8px;
-  padding: 9px 20px;
-  font-size: 13px;
-  font-weight: 600;
-  text-decoration: none;
-  flex-shrink: 0;
-  transition: background 0.15s, transform 0.1s;
-  z-index: 1;
-}
-.ad-banner-cta:hover { background: #4752c4; transform: translateY(-1px); }
-.ad-close {
-  position: absolute;
-  top: 8px; right: 10px;
-  background: none;
-  border: none;
-  color: var(--muted);
-  cursor: pointer;
-  font-size: 14px;
-  padding: 2px 4px;
-  z-index: 2;
-  transition: color 0.15s;
-}
-.ad-close:hover { color: var(--text); }
-
-/* RIGHT SIDEBAR AD — 1080x1920 ratio (portrait) */
-.ad-sidebar-right {
-  width: 180px;
-  flex-shrink: 0;
-  background: var(--bg);
-  border-left: 1px solid var(--border);
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  padding: 12px 10px;
-}
-.ad-sidebar-right::-webkit-scrollbar { width: 0; }
-.ad-sidebar-inner {
-  background: linear-gradient(180deg, #0d0d18 0%, #0a0a0a 100%);
-  border: 1px solid rgba(88,101,242,0.2);
-  border-radius: 10px;
-  padding: 16px 12px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  position: relative;
-  overflow: hidden;
-  flex: 1;
-}
-.ad-sidebar-inner::before {
-  content: '';
-  position: absolute;
-  top: -30px; left: -30px;
-  width: 140px; height: 140px;
-  background: radial-gradient(circle, rgba(88,101,242,0.15) 0%, transparent 70%);
-  pointer-events: none;
-}
-.ad-sidebar-logo {
-  width: 56px; height: 56px;
-  background: rgba(88,101,242,0.15);
-  border: 1px solid rgba(88,101,242,0.35);
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #7289da;
-  z-index: 1;
-}
-.ad-sidebar-name {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--text);
-  text-align: center;
-  z-index: 1;
-}
-.ad-sidebar-desc {
-  font-size: 10px;
-  color: var(--muted);
-  text-align: center;
-  line-height: 1.6;
-  z-index: 1;
-}
-.ad-sidebar-stats {
-  display: flex;
-  gap: 8px;
-  width: 100%;
-  z-index: 1;
-}
-.ad-stat {
-  flex: 1;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid var(--border);
-  border-radius: 7px;
-  padding: 6px 4px;
-  text-align: center;
-}
-.ad-stat-val {
-  display: block;
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--text);
-}
-.ad-stat-lbl {
-  display: block;
-  font-size: 9px;
-  color: var(--muted);
-  margin-top: 1px;
-}
-.ad-sidebar-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-  width: 100%;
-  background: #5865f2;
-  color: #fff;
-  border-radius: 8px;
-  padding: 9px 8px;
-  font-size: 11px;
-  font-weight: 700;
-  text-decoration: none;
-  transition: background 0.15s, transform 0.1s;
-  z-index: 1;
-}
-.ad-sidebar-btn:hover { background: #4752c4; transform: translateY(-1px); }
-.ad-partner-note {
-  font-size: 9px;
-  color: var(--muted);
-  text-align: center;
-  line-height: 1.7;
-  z-index: 1;
-}
-.ad-partner-note a {
-  color: #5865f2;
-  text-decoration: none;
-  font-weight: 600;
-}
-.ad-partner-note a:hover { text-decoration: underline; }
-
 /* Hide right ad on mobile/tablet */
 @media (max-width: 1100px) {
   .ad-sidebar-right { display: none; }
@@ -748,6 +534,60 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
   .ad-banner-title { font-size: 13px; }
   .ad-banner-desc { display: none; }
   .ad-banner-cta { padding: 8px 14px; font-size: 12px; }
+}
+
+/* ═══════════════════════════════
+   SCROLL FIX & LAYOUT FIXES
+═══════════════════════════════ */
+html, body { height: 100%; overflow: hidden; }
+.app-wrap { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+.layout { flex: 1; overflow: hidden; min-height: 0; }
+.main-content { flex: 1; overflow-y: auto; overflow-x: hidden; min-width: 0; display: flex; flex-direction: column; }
+.view { flex: 1; display: none; flex-direction: column; overflow-y: auto; overflow-x: hidden; }
+.view.active { display: flex; }
+.sidebar { overflow-y: auto; overflow-x: hidden; }
+.sidebar::-webkit-scrollbar { width: 3px; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+/* ═══════════════════════════════
+   LANG TOGGLE BUTTON
+═══════════════════════════════ */
+.lang-toggle {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text2);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 8px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+}
+.lang-toggle:hover { background: var(--surface3, var(--border)); color: var(--text); }
+
+
+/* Mobile ad banner fixes */
+@media (max-width: 640px) {
+  .ad-banner-top { margin: 8px 12px 0; }
+  .ad-banner-inner { padding: 10px 12px; border-radius: 8px; }
+  .ad-banner-img { width: 38px; height: 38px; border-radius: 8px; }
+  .ad-banner-title { font-size: 12px; }
+  .ad-tag-green { display: none; }
+  .ad-banner-desc { display: none; }
+  .stsc-cta { padding: 7px 12px; font-size: 11px; }
+  .ad-sidebar-right { display: none; }
+  .lang-toggle { padding: 3px 6px; font-size: 10px; }
+}
+@media (max-width: 900px) {
+  .ad-sidebar-right { display: none; }
+}
+@media (min-width: 901px) {
+  .ad-sidebar-right { display: flex; }
 }
 </style>
 </head>
@@ -773,15 +613,19 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
   <div class="tb-stat green"><strong id="pill-searches">—</strong> rech.</div>
 
   <div class="topbar-spacer"></div>
+  <button class="lang-toggle" id="langToggle" onclick="toggleLang()" title="Switch language">
+    <span class="lang-fr">FR</span><span class="lang-en" style="display:none">EN</span>
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="opacity:0.5"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+  </button>
   <div class="user-chip" id="userChip" onclick="toggleDropdown()">
     <img id="topbarAvatar" src="" alt=""/>
     <span id="topbarCrown" class="crown" style="display:none"></span>
     <span class="uname" id="topbarName">...</span>
     <svg width="12" height="12" fill="var(--muted)" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
     <div class="user-dropdown" id="userDropdown">
-      <a class="dd-item" data-nav="profile" href="#"> Mon profil</a>
+      <a class="dd-item" data-nav="profile" href="#"><span class="lang-fr"> Mon profil</span><span class="lang-en" style="display:none"> My Profile</span></a>
       <a class="dd-item" data-nav="chat" href="#"> Chat</a>
-      <a class="dd-item" data-nav="leaderboard" href="#"> Leaderboard</a>
+      <a class="dd-item" data-nav="leaderboard" href="#"><span class="lang-fr"> Leaderboard</span><span class="lang-en" style="display:none"> Leaderboard</span></a>
       <a class="dd-item danger" href="/auth/logout">↩ Déconnexion</a>
     </div>
   </div>
@@ -794,63 +638,45 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
 <nav class="sidebar">
   <a class="nav-item active" id="nav-search" data-nav="search">
     <svg class="nav-icon" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-    <div class="nav-inner"><span class="nav-label">Recherche</span><span class="nav-sub">Multi-sources</span></div>
+    <div class="nav-inner"><span class="nav-label"><span class="lang-fr">Recherche</span><span class="lang-en" style="display:none">Search</span></span><span class="nav-sub"><span class="lang-fr">Multi-sources</span><span class="lang-en" style="display:none">Multi-source</span></span></div>
   </a>
   <div class="nav-divider"></div>
   <a class="nav-item" id="nav-searcher" data-nav="searcher">
     <svg class="nav-icon" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-    <div class="nav-inner"><span class="nav-label">Searcher FR</span><span class="nav-sub">Bases françaises</span></div>
+    <div class="nav-inner"><span class="nav-label"><span class="lang-fr">Searcher FR</span><span class="lang-en" style="display:none">FR Searcher</span></span><span class="nav-sub"><span class="lang-fr">Bases françaises</span><span class="lang-en" style="display:none">French DBs</span></span></div>
   </a>
   <a class="nav-item" id="nav-leaderboard" data-nav="leaderboard">
     <svg class="nav-icon" viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm4.24 16L12 15.45 7.77 18l1.12-4.81-3.73-3.23 4.92-.42L12 5l1.92 4.53 4.92.42-3.73 3.23L16.23 18z"/></svg>
-    <div class="nav-inner"><span class="nav-label">Leaderboard</span><span class="nav-sub">Classement</span></div>
+    <div class="nav-inner"><span class="nav-label"><span class="lang-fr">Leaderboard</span><span class="lang-en" style="display:none">Leaderboard</span></span><span class="nav-sub"><span class="lang-fr">Classement</span><span class="lang-en" style="display:none">Ranking</span></span></div>
   </a>
   <a class="nav-item" id="nav-profile" data-nav="profile">
     <svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
-    <div class="nav-inner"><span class="nav-label">Profil</span></div>
+    <div class="nav-inner"><span class="nav-label"><span class="lang-fr">Profil</span><span class="lang-en" style="display:none">Profile</span></span></div>
   </a>
   <a class="nav-item" id="nav-chat" data-nav="chat">
     <svg class="nav-icon" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
-    <div class="nav-inner"><span class="nav-label">Chat</span></div>
+    <div class="nav-inner"><span class="nav-label"><span class="lang-fr">Chat</span><span class="lang-en" style="display:none">Chat</span></span></div>
     <span class="nav-badge" id="chatBadge" style="display:none">!</span>
   </a>
   <a class="nav-item" id="nav-status" data-nav="status">
     <svg class="nav-icon" viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>
-    <div class="nav-inner"><span class="nav-label">Mises à jour</span><span class="nav-sub">Notes de version</span></div>
+    <div class="nav-inner"><span class="nav-label"><span class="lang-fr">Mises à jour</span><span class="lang-en" style="display:none">Updates</span></span><span class="nav-sub"><span class="lang-fr">Notes de version</span><span class="lang-en" style="display:none">Changelog</span></span></div>
   </a>
   <a class="nav-item" id="nav-docs" data-nav="docs">
     <svg class="nav-icon" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm-1 7V3.5L18.5 9H13z"/></svg>
-    <div class="nav-inner"><span class="nav-label">Docs</span><span class="nav-sub">Documentation complète</span></div>
+    <div class="nav-inner"><span class="nav-label"><span class="lang-fr">Docs</span><span class="lang-en" style="display:none">Docs</span></span><span class="nav-sub"><span class="lang-fr">Documentation complète</span><span class="lang-en" style="display:none">Full documentation</span></span></div>
   </a>
   <div class="sidebar-bottom">
-    <span class="plan-tag" id="plan-name">Free</span>
+    <span class="plan-tag" id="plan-name"><span class="lang-fr">Gratuit</span><span class="lang-en" style="display:none">Free</span></span>
   </div>
 </nav>
 
 <!-- ── SEARCH VIEW ── -->
 <div class="view active" id="view-search">
-  <!-- TOP BANNER AD 1200x400 -->
-    <div class="ad-banner-top" id="adBannerTop">
-      <div class="ad-banner-inner">
-        <div class="ad-badge">PUB</div>
-        <div class="ad-banner-content">
-          <div class="ad-banner-logo">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-          </div>
-          <div class="ad-banner-text">
-            <div class="ad-banner-title">Votre Serveur Discord</div>
-            <div class="ad-banner-desc">Description de votre serveur ou service — Modifiez ce texte dans les fichiers</div>
-          </div>
-          <a href="https://discord.gg/TABKcTPa" target="_blank" class="ad-banner-cta">Rejoindre</a>
-        </div>
-        <button class="ad-close" onclick="document.getElementById('adBannerTop').style.display='none'">&#x2715;</button>
-      </div>
-    </div>
-
-    <div class="search-hero">
-    <div class="sources-pill"><span class="pill-dot"></span><span id="hero-sources-count">17 sources sélectionnées</span></div>
-    <h1 class="hero-title">Recherche Multi-Source</h1>
-    <p class="hero-sub">Email, username, IP, téléphone, domaine — via IntelScry en arrière-plan</p>
+      <div class="search-hero">
+    <div class="sources-pill"><span class="pill-dot"></span><span id="hero-sources-count"><span class="lang-fr">17 sources sélectionnées</span><span class="lang-en" style="display:none">17 sources selected</span></span></div>
+    <h1 class="hero-title"><span class="lang-fr">Recherche Multi-Source</span><span class="lang-en" style="display:none">Multi-Source Search</span></h1>
+    <p class="hero-sub"><span class="lang-fr">Email, username, IP, téléphone, domaine — via IntelScry en arrière-plan</span><span class="lang-en" style="display:none">Email, username, IP, phone, domain — powered by IntelScry</span></p>
     <div class="queue-bar">
       <div class="qbar-item"><svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5z"/></svg>Mes recherches <strong id="stat-searches">—</strong></div>
       <div class="qbar-item"><svg viewBox="0 0 24 24"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h7v2H4z"/></svg>Queue <strong id="stat-queue">0</strong></div>
@@ -867,7 +693,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
       <div class="si-icon"><svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg></div>
       <input class="search-input" id="searchInput" type="text" placeholder="Email, username, IP, téléphone, domaine..." autocomplete="off" spellcheck="false"/>
     </div>
-    <button class="search-btn" id="searchBtn" onclick="submitSearch()">Rechercher</button>
+    <button class="search-btn" id="searchBtn" onclick="submitSearch()"><span class="lang-fr">Rechercher</span><span class="lang-en" style="display:none">Search</span></button>
     <button class="ctrl-btn">
       <svg viewBox="0 0 24 24"><path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3c-.46-4.17-3.77-7.48-7.94-7.94V1h-2v2.06C6.83 3.52 3.52 6.83 3.06 11H1v2h2.06c.46 4.17 3.77 7.48 7.94 7.94V23h2v-2.06c4.17-.46 7.48-3.77 7.94-7.94H23v-2h-2.06z"/></svg>
       Auto: <span id="detectLabel">—</span>
@@ -897,7 +723,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
 <!-- ── LEADERBOARD VIEW ── -->
 <div class="view" id="view-searcher">
   <div class="search-hero">
-    <div class="sources-pill"><span class="pill-dot"></span><span>Bases françaises</span></div>
+    <div class="sources-pill"><span class="pill-dot"></span><span><span class="lang-fr">Bases françaises</span><span class="lang-en" style="display:none">French DBs</span></span></div>
     <h1 class="search-title">French <span class="red-text">Database</span> Searcher</h1>
     <p class="search-sub">Recherche dans les bases de données françaises — Combinez les critères ou recherche rapide</p>
   </div>
@@ -995,7 +821,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
 
 <div class="view" id="view-leaderboard">
   <div class="lb-wrap">
-    <div class="lb-title"> Leaderboard</div>
+    <div class="lb-title"><span class="lang-fr"> Leaderboard</span><span class="lang-en" style="display:none"> Leaderboard</span></div>
     <div class="lb-sub">Classement des recherches — pseudos masqués</div>
     <div class="lb-table">
       <div class="lb-header"><span>#</span><span>Joueur</span><span>Recherches</span><span>Dernière</span></div>
@@ -1022,7 +848,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
     </div>
     <div class="profile-stats">
       <div class="pstat"><div class="pval" id="ps-s">—</div><div class="plbl">Recherches</div></div>
-      <div class="pstat"><div class="pval" id="ps-rank">#—</div><div class="plbl">Classement</div></div>
+      <div class="pstat"><div class="pval" id="ps-rank">#—</div><div class="plbl"><span class="lang-fr">Classement</span><span class="lang-en" style="display:none">Ranking</span></div></div>
       <div class="pstat"><div class="pval" id="ps-cd">—</div><div class="plbl">Cooldown</div></div>
     </div>
   </div>
@@ -1067,7 +893,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
     </div>
     <div class="st-grid" id="statusGrid"></div>
 
-    <div style="font-size:11px;font-weight:700;color:#52525b;text-transform:uppercase;letter-spacing:1px;margin:20px 0 8px">Notes de version</div>
+    <div style="font-size:11px;font-weight:700;color:#52525b;text-transform:uppercase;letter-spacing:1px;margin:20px 0 8px"><span class="lang-fr">Notes de version</span><span class="lang-en" style="display:none">Changelog</span></div>
 
     <div class="doc-card" style="margin-bottom:6px">
       <h3 style="display:flex;align-items:center;justify-content:space-between">
@@ -1156,29 +982,6 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
   </div>
 </div>
 
-  <!-- RIGHT AD COLUMN 1080x1920 ratio -->
-  <aside class="ad-sidebar-right">
-    <div class="ad-sidebar-inner">
-      <div class="ad-badge">PUB</div>
-      <div class="ad-sidebar-logo">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-      </div>
-      <div class="ad-sidebar-name">Votre Serveur</div>
-      <div class="ad-sidebar-desc">Modifiez ce texte et ce logo dans les fichiers source pour personnaliser cette publicite.</div>
-      <div class="ad-sidebar-stats">
-        <div class="ad-stat"><span class="ad-stat-val">—</span><span class="ad-stat-lbl">membres</span></div>
-        <div class="ad-stat"><span class="ad-stat-val">—</span><span class="ad-stat-lbl">en ligne</span></div>
-      </div>
-      <a href="https://discord.gg/TABKcTPa" target="_blank" class="ad-sidebar-btn">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057.1 18.08.11 18.1.128 18.116a19.879 19.879 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
-        Rejoindre le serveur
-      </a>
-      <div class="ad-partner-note">
-        Advertise ici ?<br>
-        <a href="https://discord.gg/TABKcTPa" target="_blank">Ouvrir un ticket</a>
-      </div>
-    </div>
-  </aside>
 </div><!-- /layout -->
 <div class="toast-container" id="toastContainer"></div>
 
@@ -1448,6 +1251,21 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
 </head>
 
 <script>
+var currentLang = 'fr';
+function toggleLang() {
+  currentLang = currentLang === 'fr' ? 'en' : 'fr';
+  document.querySelectorAll('.lang-fr').forEach(function(el){ el.style.display = currentLang === 'fr' ? '' : 'none'; });
+  document.querySelectorAll('.lang-en').forEach(function(el){ el.style.display = currentLang === 'en' ? '' : 'none'; });
+  var btn = document.getElementById('langToggle');
+  if (btn) btn.title = currentLang === 'fr' ? 'Switch to English' : 'Passer en français';
+  localStorage.setItem('9look_lang', currentLang);
+}
+function applyLang(lang) {
+  currentLang = lang;
+  document.querySelectorAll('.lang-fr').forEach(function(el){ el.style.display = lang === 'fr' ? '' : 'none'; });
+  document.querySelectorAll('.lang-en').forEach(function(el){ el.style.display = lang === 'en' ? '' : 'none'; });
+}
+
 function navigate(v) {
   document.querySelectorAll('.view').forEach(function(x){x.classList.remove('active');});
   document.querySelectorAll('.nav-item').forEach(function(x){x.classList.remove('active');});
@@ -1504,6 +1322,9 @@ document.addEventListener('DOMContentLoaded', function() {
     if (dx < -60) closeMobileNav(); // swipe left closes
   }, {passive:true});
   init();
+  // Apply saved language
+  var savedLang = localStorage.getItem('9look_lang') || 'fr';
+  if (savedLang !== 'fr') applyLang(savedLang);
 });
 
 const OWNER_ID = '1476955134280863774';
@@ -2185,7 +2006,7 @@ function renderSearcherResults(data) {
   </a>
   <a class="bn-item" id="bn-leaderboard" data-nav="leaderboard">
     <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm4.24 16L12 15.45 7.77 18l1.12-4.81-3.73-3.23 4.92-.42L12 5l1.92 4.53 4.92.42-3.73 3.23L16.23 18z"/></svg>
-    <span>Classement</span>
+    <span><span class="lang-fr">Classement</span><span class="lang-en" style="display:none">Ranking</span></span>
   </a>
   <a class="bn-item" id="bn-chat" data-nav="chat">
     <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
