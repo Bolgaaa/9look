@@ -1328,21 +1328,33 @@ async function launchSearcher() {
   }, 1000);
 
   try {
-    var controller = new AbortController();
-    var timer = setTimeout(function(){ controller.abort(); }, 150000);
     var resp = await fetch('/api/searcher', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({query: query, wildcard: wildcard, criteria: criteriaArr, quickSearch: quick}),
-      signal: controller.signal
+      body: JSON.stringify({query: query, wildcard: wildcard, criteria: criteriaArr, quickSearch: quick})
     });
-    clearTimeout(timer);
+    var data = await resp.json();
+    if (!resp.ok) { showToast(data.error || 'Erreur', 'err'); area.innerHTML = ''; btn.disabled = false; btn.textContent = 'Lancer la recherche'; return; }
+    
+    // Poll for result
+    var jobId = data.job_id;
+    var pollStart = Date.now();
+    var pollResult = null;
+    while (Date.now() - pollStart < 180000) {
+      await new Promise(function(r){ setTimeout(r, 2000); });
+      var pb3 = document.getElementById('searcherBar');
+      if (pb3) pb3.style.width = Math.min(90, 10 + (Date.now()-pollStart)/2000) + '%';
+      try {
+        var pr = await fetch('/api/searcher/poll/' + jobId);
+        var pd = await pr.json();
+        if (pd.ready) { pollResult = pd; break; }
+      } catch(pe) {}
+    }
     clearInterval(pi);
     var pb2 = document.getElementById('searcherBar');
     if (pb2) pb2.style.width = '100%';
-    var data = await resp.json();
-    if (!resp.ok) { showToast(data.error || 'Erreur', 'err'); area.innerHTML = ''; btn.disabled = false; btn.textContent = 'Lancer la recherche'; return; }
-    setTimeout(function(){ renderSearcherResults(data); }, 300);
+    if (!pollResult) { showToast('Timeout - reessaie', 'err'); area.innerHTML = ''; btn.disabled = false; btn.textContent = 'Lancer la recherche'; return; }
+    setTimeout(function(){ renderSearcherResults(pollResult); }, 300);
   } catch(err) {
     clearInterval(pi);
     showToast(err.name === 'AbortError' ? 'Timeout' : 'Erreur: ' + err.message, 'err');

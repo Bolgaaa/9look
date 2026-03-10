@@ -150,6 +150,17 @@ router.post('/worker/register', (req, res) => {
   res.json({ status: 'registered' });
 });
 
+// ── GET /api/searcher/poll/:job_id ─────────────────────────────────────────────
+router.get('/searcher/poll/:job_id', ensureAuth, (req, res) => {
+  const { job_id } = req.params;
+  if (jobResults[job_id]) {
+    const result = jobResults[job_id];
+    delete jobResults[job_id];
+    return res.json({ ready: true, sources: result.sources||result.results||[], count: result.count||0, error: result.error||null });
+  }
+  res.json({ ready: false });
+});
+
 // ── POST /api/worker/result ───────────────────────────────────────────────────
 router.post('/worker/result', (req, res) => {
   if (req.headers['x-worker-secret'] !== workerSecret) return res.status(401).json({ error: 'Unauthorized' });
