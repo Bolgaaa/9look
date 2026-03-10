@@ -198,15 +198,8 @@ router.post('/searcher', ensureAuth, async (req, res) => {
       job_id, query: query.trim(), quickSearch: quickSearch||'', criteria: criteria||[], wildcard: !!wildcard
     }, { headers: { 'X-Worker-Secret': workerSecret }, timeout: 8000 });
 
-    // Wait for result
-    let result = null;
-    for (let i = 0; i < 200; i++) {
-      await new Promise(r => setTimeout(r, 1000));
-      if (jobResults[job_id]) { result = jobResults[job_id]; break; }
-    }
-    if (!result) return res.status(504).json({ error: 'Timeout.' });
-    delete jobResults[job_id];
-    res.json({ query: query.trim(), sources: result.sources||[], count: result.count||0, error: result.error||null });
+    // Retourner job_id immediatement - le frontend poll
+    res.json({ job_id, query: query.trim(), pending: true });
   } catch(err) {
     res.status(500).json({ error: 'Erreur: ' + err.message });
   }
