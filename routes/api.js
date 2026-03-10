@@ -118,8 +118,7 @@ router.post('/search', ensureAuth, async (req, res) => {
 
     res.json({
       query:   query.trim(),
-      type:    detectType(query.trim()),
-      results: result.results || [],
+      sources: result.sources || result.results || [],
       count:   result.count   || 0,
       error:   result.error   || null,
     });
@@ -154,8 +153,8 @@ router.post('/worker/register', (req, res) => {
 // ── POST /api/worker/result ───────────────────────────────────────────────────
 router.post('/worker/result', (req, res) => {
   if (req.headers['x-worker-secret'] !== workerSecret) return res.status(401).json({ error: 'Unauthorized' });
-  const { job_id, results, count, error } = req.body;
-  jobResults[job_id] = { results: results||[], count: count||0, error: error||null };
+  const { job_id, results, sources, count, error } = req.body;
+  jobResults[job_id] = { results: results||[], sources: sources||results||[], count: count||0, error: error||null };
   console.log(`[Worker] Résultat reçu job ${job_id} — ${count} résultats`);
   res.json({ status: 'ok' });
 });
