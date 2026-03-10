@@ -296,6 +296,21 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
 .crit-row-del{background:none;border:none;border-left:1px solid var(--border);padding:10px 12px;color:var(--muted);cursor:pointer;font-size:16px;line-height:1}
 .crit-row-del:hover{color:var(--red);background:rgba(239,68,68,0.08)}
 .search-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:16px;height:16px;fill:var(--muted);pointer-events:none;}
+
+.src-sub { margin-left: 14px; border-left: 2px solid rgba(255,255,255,0.06); padding-left: 6px; }
+.res-icon { display:flex;align-items:center;width:16px;height:16px;opacity:0.5;flex-shrink:0; }
+.res-icon svg { width:14px;height:14px; }
+.res-entry-of { font-size:10px;opacity:0.4; }
+.res-total-badge { background:rgba(244,114,182,0.15);color:#f472b6;border-radius:20px;padding:2px 10px;font-size:11px;font-weight:700;margin-left:8px; }
+.res-query { font-weight:600;color:var(--text-primary,#fff); }
+.src-tags-row { display:flex;flex-wrap:wrap;gap:6px;margin-top:8px; }
+.src-tag { display:flex;align-items:center;gap:5px;background:rgba(255,255,255,0.05);border-radius:20px;padding:3px 10px;font-size:11px;color:rgba(255,255,255,0.6); }
+.src-tag-cnt { background:rgba(255,255,255,0.1);border-radius:10px;padding:1px 6px;font-weight:700;color:#fff; }
+.crit-row-card { display:flex;align-items:center;gap:8px;padding:8px 10px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:8px;margin-bottom:6px; }
+.crit-row-label { min-width:90px;font-size:12px;font-weight:600;color:rgba(255,255,255,0.5);flex-shrink:0; }
+.crit-row-input { flex:1;background:transparent;border:none;outline:none;color:#fff;font-size:13px; }
+.crit-row-del { background:none;border:none;color:rgba(255,80,80,0.7);cursor:pointer;font-size:16px;padding:0 4px;line-height:1;transition:color 0.2s; }
+.crit-row-del:hover { color:#f87171; }
 </style>
 </head>
 <body>
@@ -1286,11 +1301,30 @@ function renderCritRows() {
   var clearBtn = document.getElementById('clearCritBtn');
   area.innerHTML = '';
   if (clearBtn) clearBtn.style.display = searcherCriteria.length ? 'flex' : 'none';
-  searcherCriteria.forEach(function(c, i) {
+  searcherCriteria.forEach(function(c) {
     var row = document.createElement('div');
     row.className = 'crit-row-card';
-    var delKey = c.key.replace(/'/g, '');
-    row.innerHTML = '<div class="crit-row-label">' + e(c.label) + '</div><input class="crit-row-input" type="text" placeholder="Valeur..." value="' + e(c.value) + '" oninput="searcherCriteria['+i+'].value=this.value"><button class="crit-row-del" onclick="removeCrit(\"'+delKey+'\")">✕</button>';
+    var inp = document.createElement('input');
+    inp.className = 'crit-row-input';
+    inp.type = 'text';
+    inp.placeholder = 'Valeur...';
+    inp.value = c.value || '';
+    inp.dataset.key = c.key;
+    inp.addEventListener('input', function() {
+      var sc = searcherCriteria.find(function(x){return x.key===this.dataset.key;},this);
+      if (sc) sc.value = this.value;
+    });
+    var lbl = document.createElement('div');
+    lbl.className = 'crit-row-label';
+    lbl.textContent = c.label;
+    var del = document.createElement('button');
+    del.className = 'crit-row-del';
+    del.textContent = 'x';
+    del.dataset.key = c.key;
+    del.addEventListener('click', function() { removeCrit(this.dataset.key); });
+    row.appendChild(lbl);
+    row.appendChild(inp);
+    row.appendChild(del);
     area.appendChild(row);
   });
 }
@@ -1340,19 +1374,30 @@ async function launchSearcher() {
     }
     var data = await resp.json();
     
-    // Poll for result
+    // Poll for result with queue position display
     var jobId = data.job_id;
+    var qPos = data.position || 0;
     var pollStart = Date.now();
     var pollResult = null;
-    while (Date.now() - pollStart < 180000) {
+    var statusEl = area.querySelector('.jstatus');
+    var infoEl = area.querySelector('.jinfo');
+    if (qPos > 0 && statusEl) statusEl.textContent = 'En attente... position ' + (qPos+1) + ' dans la file';
+    while (Date.now() - pollStart < 300000) {
       await new Promise(function(r){ setTimeout(r, 2000); });
-      var pb3 = document.getElementById('searcherBar');
-      if (pb3) pb3.style.width = Math.min(90, 10 + (Date.now()-pollStart)/2000) + '%';
       try {
         var pr = await fetch('/api/searcher/poll/' + jobId);
-        if (!pr.ok) { await new Promise(function(r){setTimeout(r,2000);}); continue; }
+        if (!pr.ok) continue;
         var pd = await pr.json();
         if (pd.ready) { pollResult = pd; break; }
+        var pos2 = pd.position || 0;
+        if (statusEl) {
+          if (pos2 > 1) statusEl.textContent = 'En attente... position ' + pos2 + ' dans la file';
+          else statusEl.textContent = 'Recherche dans les bases francaises...';
+        }
+        var elapsed = Math.floor((Date.now()-pollStart)/1000);
+        if (infoEl) infoEl.textContent = elapsed + 's ecoules';
+        var pb3 = document.getElementById('searcherBar');
+        if (pb3) pb3.style.width = Math.min(90, 5 + elapsed*0.8) + '%';
       } catch(pe) {}
     }
     clearInterval(pi);
@@ -1380,30 +1425,60 @@ function renderSearcherResults(data) {
     showToast('Aucun resultat', 'warn'); return;
   }
 
+  // Header
   var hd = document.createElement('div');
   hd.className = 'results-hd';
-  hd.innerHTML = '<div class="results-info">Requete: <strong>'+e(data.query||'')+'</strong> &middot; <strong>'+total+'</strong> resultat(s)</div><div class="res-actions"><button class="res-btn" onclick="exportSearcherJSON()">JSON</button></div>';
+  var srcTags = sources.map(function(s){
+    return '<span class="src-tag">'+e(s.sourceName||'')+'<span class="src-tag-cnt">'+(s.count||0)+'</span></span>';
+  }).join('');
+  hd.innerHTML = (
+    '<div class="results-info">' +
+      '<span class="res-query">'+e(data.query||'')+'</span>' +
+      '<span class="res-total-badge">'+total+' resultats</span>' +
+    '</div>' +
+    '<div class="src-tags-row">'+srcTags+'</div>' +
+    '<div class="res-actions">' +
+      '<button class="res-btn" onclick="exportSearcherJSON()">JSON</button>' +
+    '</div>'
+  );
   area.appendChild(hd);
 
   var palette = ['#f472b6','#fb923c','#4ade80','#38bdf8','#a78bfa','#fbbf24','#34d399','#60a5fa'];
 
-  function makeCard(entry, idx) {
+  function iconFor(k) {
+    var kl = k.toLowerCase();
+    if (kl==='email'||kl.indexOf('mail')!==-1) return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>';
+    if (kl==='telephone'||kl.indexOf('phone')!==-1||kl.indexOf('tel')!==-1) return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.15 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.07 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>';
+    if (kl==='nom'||kl==='prenom'||kl.indexOf('name')!==-1) return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
+    if (kl==='adresse'||kl==='rue'||kl==='ville'||kl.indexOf('addr')!==-1) return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>';
+    if (kl==='naissance'||kl.indexOf('birth')!==-1||kl.indexOf('date')!==-1) return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>';
+    if (kl.indexOf('pass')!==-1||kl==='mdp') return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>';
+    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>';
+  }
+
+  function makeCard(entry, idx, total_in_sub) {
     var card = document.createElement('div');
     card.className = 'res-card';
-    var html = '<div class="res-entry-num">#'+idx+'</div>';
+    var rows = '';
     if (typeof entry !== 'object' || !entry) {
-      html += '<div class="res-row"><span class="res-v">'+e(String(entry))+'</span></div>';
+      rows = '<div class="res-row"><span class="res-v">'+e(String(entry))+'</span></div>';
     } else {
       Object.keys(entry).forEach(function(k) {
         var v = entry[k];
-        if (!v || v === 'null') return;
+        if (!v || v === 'null' || v === 'None') return;
         var kl = k.toLowerCase();
-        var isPass = kl.indexOf('pass') !== -1 || kl === 'mot de passe' || kl === 'mdp';
-        var isHL = kl === 'email' || kl === 'telephone' || kl.indexOf('phone') !== -1;
-        html += '<div class="res-row"><span class="res-k">'+e(k)+'</span><span class="res-v'+(isPass?' red':isHL?' hl':'')+'">'+e(String(v))+'</span></div>';
+        var isPass = kl.indexOf('pass') !== -1 || kl === 'mdp';
+        var isHL = kl === 'email' || kl.indexOf('mail') !== -1 || kl === 'telephone' || kl.indexOf('phone') !== -1;
+        var cls = 'res-v' + (isPass ? ' red' : isHL ? ' hl' : '');
+        rows += '<div class="res-row">' +
+          '<span class="res-icon">'+iconFor(k)+'</span>' +
+          '<span class="res-k">'+e(k)+'</span>' +
+          '<span class="'+cls+'">'+e(String(v))+'</span>' +
+        '</div>';
       });
     }
-    card.innerHTML = html;
+    if (!rows) return null;
+    card.innerHTML = '<div class="res-entry-num">#'+idx+' <span class="res-entry-of">/ '+total_in_sub+'</span></div>' + rows;
     return card;
   }
 
@@ -1412,27 +1487,55 @@ function renderSearcherResults(data) {
     var subSources = src.subSources || [];
     var entries = src.entries || [];
     var count = src.count || 0;
-    var bodyId = 'srb'+si;
 
     var grp = document.createElement('div');
     grp.className = 'src-group exp';
-    grp.innerHTML = '<div class="src-group-hd" onclick="this.parentElement.classList.toggle(&quot;exp&quot;)"><span class="src-indicator" style="background:'+color+'"></span><span class="src-gname">'+e(src.sourceName||'')+'</span><span class="src-gcnt has">'+count+'</span><svg class="src-chevron" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg></div><div class="src-group-body" id="'+bodyId+'"></div>';
+    var hdr = document.createElement('div');
+    hdr.className = 'src-group-hd';
+    hdr.innerHTML = (
+      '<span class="src-indicator" style="background:'+color+'"></span>' +
+      '<span class="src-gname">'+e(src.sourceName||'')+'</span>' +
+      '<span class="src-gcnt has">'+count+'</span>' +
+      '<svg class="src-chevron" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>'
+    );
+    hdr.addEventListener('click', function(){ this.parentElement.classList.toggle('exp'); });
+    var body = document.createElement('div');
+    body.className = 'src-group-body';
+    grp.appendChild(hdr);
+    grp.appendChild(body);
     area.appendChild(grp);
-    var body = document.getElementById(bodyId);
 
-    subSources.forEach(function(sub, ssi) {
-      var sc2 = palette[(si+ssi+3)%palette.length];
-      var subId = 'srs'+si+'_'+ssi;
-      var subGrp = document.createElement('div');
-      subGrp.className = 'src-group exp';
-      subGrp.style.marginLeft = '10px';
-      subGrp.innerHTML = '<div class="src-group-hd" onclick="this.parentElement.classList.toggle(&quot;exp&quot;)"><span class="src-indicator" style="background:'+sc2+'"></span><span class="src-gname">'+e(sub.sourceName||'')+'</span><span class="src-gcnt has">'+(sub.count||0)+'</span><svg class="src-chevron" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg></div><div class="src-group-body" id="'+subId+'"></div>';
-      body.appendChild(subGrp);
-      var subBody = document.getElementById(subId);
-      (sub.entries||[]).slice(0,300).forEach(function(entry,ei){ subBody.appendChild(makeCard(entry,ei+1)); });
+    if (subSources.length) {
+      subSources.forEach(function(sub, ssi) {
+        if (!(sub.entries||[]).length) return;
+        var sc2 = palette[(si*3+ssi+2) % palette.length];
+        var subGrp = document.createElement('div');
+        subGrp.className = 'src-group exp src-sub';
+        var subHdr = document.createElement('div');
+        subHdr.className = 'src-group-hd';
+        subHdr.innerHTML = (
+          '<span class="src-indicator" style="background:'+sc2+'"></span>' +
+          '<span class="src-gname">'+e(sub.sourceName||'')+'</span>' +
+          '<span class="src-gcnt has">'+(sub.count||sub.entries.length)+'</span>' +
+          '<svg class="src-chevron" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>'
+        );
+        subHdr.addEventListener('click', function(){ this.parentElement.classList.toggle('exp'); });
+        var subBody = document.createElement('div');
+        subBody.className = 'src-group-body';
+        subGrp.appendChild(subHdr);
+        subGrp.appendChild(subBody);
+        body.appendChild(subGrp);
+        var subEntries = sub.entries || [];
+        subEntries.slice(0,300).forEach(function(entry,ei){
+          var card = makeCard(entry,ei+1,subEntries.length);
+          if (card) subBody.appendChild(card);
+        });
+      });
+    }
+    entries.slice(0,300).forEach(function(entry,ei){
+      var card = makeCard(entry,ei+1,entries.length);
+      if (card) body.appendChild(card);
     });
-
-    entries.slice(0,300).forEach(function(entry,ei){ body.appendChild(makeCard(entry,ei+1)); });
   });
 
   showToast(total+' resultats!', 'ok');

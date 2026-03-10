@@ -11,7 +11,33 @@ const COOLDOWN_MS = 10 * 60 * 1000;
 const cooldowns   = {};   // { user_id: timestamp }
 const leaderboard = {};   // { user_id: { username, count, last } }
 const jobResults  = {};   // { job_id: result }
+const searcherQueue = [];  // [{ job_id, userId, username, res, addedAt }]
+let   searcherBusy  = false;
 let   workerUrl   = null;
+
+async function processSearcherQueue() {
+  if (searcherBusy || searcherQueue.length === 0) return;
+  searcherBusy = true;
+  const item = searcherQueue.shift();
+  const { job_id, payload, res } = item;
+  try {
+    await require('axios').post(`${workerUrl}/searcher`, payload,
+      { headers: { 'X-Worker-Secret': workerSecret }, timeout: 10000 });
+    res.json({ job_id, query: payload.query, pending: true, position: 0 });
+  } catch(err) {
+    res.status(500).json({ error: 'Erreur worker: ' + err.message });
+    searcherBusy = false;
+    processSearcherQueue();
+    return;
+  }
+  // Wait for result then free queue
+  for (let i = 0; i < 300; i++) {
+    await new Promise(r => setTimeout(r, 1000));
+    if (jobResults[job_id]) break;
+  }
+  searcherBusy = false;
+  processSearcherQueue();
+}
 const workerSecret = process.env.WORKER_SECRET || 'change_this';
 
 const SOURCES = {
@@ -158,7 +184,12 @@ router.get('/searcher/poll/:job_id', ensureAuth, (req, res) => {
     delete jobResults[job_id];
     return res.json({ ready: true, sources: result.sources||result.results||[], count: result.count||0, error: result.error||null });
   }
-  res.json({ ready: false });
+  res.json({ ready: false, position: searcherQueue.findIndex(function(q){return q.job_id===job_id;})+2 || 0 });
+});
+
+// ── GET /api/searcher/queue ────────────────────────────────────────────────────
+router.get('/searcher/queue', ensureAuth, (req, res) => {
+  res.json({ busy: searcherBusy, queued: searcherQueue.length });
 });
 
 // ── POST /api/worker/result ───────────────────────────────────────────────────
