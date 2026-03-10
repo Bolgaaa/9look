@@ -58,7 +58,11 @@ const OWNER_ID = '1476955134280863774';
 const chatMessages = [];
 const MAX_MESSAGES = 100;
 
+let onlineCount = 0;
+
 io.on('connection', (socket) => {
+  onlineCount++;
+  io.emit('online:count', onlineCount);
   socket.emit('chat:history', chatMessages);
 
   socket.on('chat:send', (data) => {
@@ -76,7 +80,12 @@ io.on('connection', (socket) => {
     chatMessages.push(msg);
     if (chatMessages.length > MAX_MESSAGES) chatMessages.shift();
     io.emit('chat:message', msg);
+  })
+  socket.on('disconnect', () => {
+    onlineCount = Math.max(0, onlineCount - 1);
+    io.emit('online:count', onlineCount);
   });
+;
 });
 
 server.listen(PORT, () => {

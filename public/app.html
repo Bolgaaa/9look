@@ -496,6 +496,13 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
         <input type="checkbox" id="wildcardToggle" style="accent-color:var(--accent);width:13px;height:13px"> Wildcard
       </label>
     </div>
+
+    <!-- Queue status banner -->
+    <div id="searcherQueueBanner" style="display:none;align-items:center;justify-content:center;gap:10px;background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.25);border-radius:8px;padding:10px 16px;font-size:12px;color:#93c5fd;margin-top:8px">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      <span id="searcherQueueMsg">En attente dans la file...</span>
+      <span style="background:rgba(59,130,246,0.2);border-radius:20px;padding:2px 10px;font-weight:700;color:#60a5fa" id="searcherQueuePos"></span>
+    </div>
   </div>
 
   <!-- Picker modal -->
@@ -1470,18 +1477,33 @@ async function launchSearcher() {
     var pollResult = null;
     var statusEl = area.querySelector('.jstatus');
     var infoEl = area.querySelector('.jinfo');
-    if (qPos > 0 && statusEl) statusEl.textContent = 'En attente... position ' + (qPos+1) + ' dans la file';
+    // Show queue banner if position > 0
+    var qBanner = document.getElementById('searcherQueueBanner');
+    var qMsg = document.getElementById('searcherQueueMsg');
+    var qPosEl = document.getElementById('searcherQueuePos');
+    function updateQueueBanner(pos) {
+      if (!qBanner) return;
+      if (pos > 0) {
+        qBanner.style.display = 'flex';
+        if (qMsg) qMsg.textContent = 'En attente dans la file...';
+        if (qPosEl) qPosEl.textContent = 'Position ' + pos;
+      } else {
+        qBanner.style.display = 'none';
+      }
+    }
+    updateQueueBanner(qPos);
+
     while (Date.now() - pollStart < 300000) {
       await new Promise(function(r){ setTimeout(r, 2000); });
       try {
         var pr = await fetch('/api/searcher/poll/' + jobId);
         if (!pr.ok) continue;
         var pd = await pr.json();
-        if (pd.ready) { pollResult = pd; break; }
-        var pos2 = pd.position || 0;
+        if (pd.ready) { updateQueueBanner(0); pollResult = pd; break; }
+        var curPos = pd.position || 0;
+        updateQueueBanner(curPos);
         if (statusEl) {
-          if (pos2 > 1) statusEl.textContent = 'En attente... position ' + pos2 + ' dans la file';
-          else statusEl.textContent = 'Recherche dans les bases francaises...';
+          statusEl.textContent = curPos > 1 ? 'En attente... position ' + curPos + ' dans la file' : 'Recherche dans les bases francaises...';
         }
         var elapsed = Math.floor((Date.now()-pollStart)/1000);
         if (infoEl) infoEl.textContent = elapsed + 's ecoules';
@@ -1492,6 +1514,8 @@ async function launchSearcher() {
     clearInterval(pi);
     var pb2 = document.getElementById('searcherBar');
     if (pb2) pb2.style.width = '100%';
+    var qBannerEnd = document.getElementById('searcherQueueBanner');
+    if (qBannerEnd) qBannerEnd.style.display = 'none';
     if (!pollResult) { showToast('Timeout - reessaie', 'err'); area.innerHTML = ''; btn.disabled = false; btn.textContent = 'Lancer la recherche'; return; }
     setTimeout(function(){ renderSearcherResults(pollResult); }, 300);
   } catch(err) {
