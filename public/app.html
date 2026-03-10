@@ -1333,8 +1333,12 @@ async function launchSearcher() {
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({query: query, wildcard: wildcard, criteria: criteriaArr, quickSearch: quick})
     });
+    if (!resp.ok) {
+      var errTxt = 'Erreur ' + resp.status;
+      try { var errD = await resp.json(); errTxt = errD.error || errTxt; } catch(x) {}
+      showToast(errTxt, 'err'); area.innerHTML = ''; btn.disabled = false; btn.textContent = 'Lancer la recherche'; return;
+    }
     var data = await resp.json();
-    if (!resp.ok) { showToast(data.error || 'Erreur', 'err'); area.innerHTML = ''; btn.disabled = false; btn.textContent = 'Lancer la recherche'; return; }
     
     // Poll for result
     var jobId = data.job_id;
@@ -1346,6 +1350,7 @@ async function launchSearcher() {
       if (pb3) pb3.style.width = Math.min(90, 10 + (Date.now()-pollStart)/2000) + '%';
       try {
         var pr = await fetch('/api/searcher/poll/' + jobId);
+        if (!pr.ok) { await new Promise(function(r){setTimeout(r,2000);}); continue; }
         var pd = await pr.json();
         if (pd.ready) { pollResult = pd; break; }
       } catch(pe) {}
