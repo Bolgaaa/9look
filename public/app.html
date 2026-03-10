@@ -359,6 +359,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
     <span class="plan-tag" id="plan-name">Free</span>
   </div>
 </nav>
+
 <!-- ── SEARCH VIEW ── -->
 <div class="view active" id="view-search">
   <div class="search-hero">
@@ -808,39 +809,6 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
 @keyframes toastIn{from{transform:translateY(8px);opacity:0}to{transform:translateY(0);opacity:1}}
 </style>
 </head>
-<body>
-
-<!-- TOPBAR -->
-<header class="topbar">
-  <a href="/" class="topbar-logo">
-    <svg class="logo-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>
-    9look
-  </a>
-  <div class="tb-stat" id="workerStat" title="Statut du worker Python">
-    <span class="worker-dot" id="workerDot"></span>
-    <span id="workerLabel">Worker OFF</span>
-  </div>
-  <div class="tb-stat green"><strong id="pill-searches">—</strong> rech.</div>
-
-  <div class="topbar-spacer"></div>
-  <div class="user-chip" id="userChip" onclick="toggleDropdown()">
-    <img id="topbarAvatar" src="" alt=""/>
-    <span id="topbarCrown" class="crown" style="display:none">👑</span>
-    <span class="uname" id="topbarName">...</span>
-    <svg width="12" height="12" fill="var(--muted)" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
-    <div class="user-dropdown" id="userDropdown">
-      <a class="dd-item" data-nav="profile" href="#">👤 Mon profil</a>
-      <a class="dd-item" data-nav="chat" href="#">💬 Chat</a>
-      <a class="dd-item" data-nav="leaderboard" href="#">🏆 Leaderboard</a>
-      <a class="dd-item danger" href="/auth/logout">↩ Déconnexion</a>
-    </div>
-  </div>
-</header>
-
-<!-- LAYOUT -->
-<div class="layout">
-
-<!-- SIDEBAR -->
 
 <script>
 function navigate(v) {
