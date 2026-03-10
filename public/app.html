@@ -285,6 +285,16 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
 .crit-val-input{flex:1;background:transparent;border:none;color:var(--fg);font-size:13px;outline:none}
 .search-divider{display:flex;align-items:center;gap:10px;margin:14px 0;color:var(--muted);font-size:11px;font-weight:600;letter-spacing:0.5px}
 .search-divider::before,.search-divider::after{content:"";flex:1;height:1px;background:var(--border)}
+.add-crit-btn{display:flex;align-items:center;justify-content:center;gap:8px;border:1px dashed var(--border2);border-radius:8px;padding:11px;cursor:pointer;font-size:13px;color:var(--muted);transition:all 0.15s;width:100%;box-sizing:border-box}
+.add-crit-btn:hover{border-color:var(--accent);color:var(--accent)}
+.picker-btn{display:flex;align-items:center;gap:6px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:12px;color:var(--fg);cursor:pointer;transition:all 0.15s;text-align:left}
+.picker-btn:hover{border-color:var(--accent);color:var(--accent)}
+.picker-btn.iso:hover{border-color:#fb923c;color:#fb923c}
+.crit-row-card{display:flex;align-items:center;gap:0;background:var(--surface2);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.crit-row-label{background:var(--surface);border-right:1px solid var(--border);padding:10px 14px;font-size:12px;font-weight:600;color:var(--fg);min-width:120px;white-space:nowrap}
+.crit-row-input{flex:1;background:transparent;border:none;padding:10px 14px;color:var(--fg);font-size:13px;outline:none}
+.crit-row-del{background:none;border:none;border-left:1px solid var(--border);padding:10px 12px;color:var(--muted);cursor:pointer;font-size:16px;line-height:1}
+.crit-row-del:hover{color:var(--red);background:rgba(239,68,68,0.08)}
 </style>
 </head>
 <body>
@@ -412,55 +422,89 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
 <!-- ── LEADERBOARD VIEW ── -->
 <div class="view" id="view-searcher">
   <div class="search-hero">
-    <div class="src-pill"><svg viewBox="0 0 24 24" width="12" height="12"><path d="M10 2a8 8 0 1 0 4.906 14.32l4.387 4.387 1.414-1.414-4.387-4.387A8 8 0 0 0 10 2z"/></svg> Bases françaises</div>
-    <h1 class="search-title">Recherche <span class="red-text">Multi-Source</span> FR</h1>
-    <p class="search-sub">Bases de données françaises — critères combinables</p>
+    <div class="sources-pill"><span class="pill-dot"></span><span>Bases françaises</span></div>
+    <h1 class="search-title">French <span class="red-text">Database</span> Searcher</h1>
+    <p class="search-sub">Recherche dans les bases de données françaises — Combinez les critères ou recherche rapide</p>
   </div>
 
-  <div class="search-box-wrap">
-    <div class="crit-section">
-      <div class="crit-section-title">
-        <span class="crit-badge comb">COMBINABLES</span>
-        <span style="font-size:11px;color:var(--muted)">Nom, Prénom, Date, Code Postal, Rue, Ville</span>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+    <div class="src-group" style="padding:14px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+        <svg width="14" height="14" fill="#4ade80" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+        <span style="font-size:13px;font-weight:600;color:var(--fg)">Critères combinables</span>
       </div>
-      <div class="crit-grid">
-        <label class="crit-toggle"><input type="checkbox" value="Nom" onchange="toggleCrit(this)"><span>👤 Nom</span></label>
-        <label class="crit-toggle"><input type="checkbox" value="Prenom" onchange="toggleCrit(this)"><span>👤 Prénom</span></label>
-        <label class="crit-toggle"><input type="checkbox" value="Date" onchange="toggleCrit(this)"><span>📅 Date naissance</span></label>
-        <label class="crit-toggle"><input type="checkbox" value="CodePostal" onchange="toggleCrit(this)"><span>📮 Code Postal</span></label>
-        <label class="crit-toggle"><input type="checkbox" value="Rue" onchange="toggleCrit(this)"><span>🏠 Rue</span></label>
-        <label class="crit-toggle"><input type="checkbox" value="Ville" onchange="toggleCrit(this)"><span>🏙️ Ville</span></label>
+      <div style="font-size:12px;color:var(--muted)">Nom, Prénom, Date de naissance, Code Postal, Rue, Ville</div>
+    </div>
+    <div class="src-group" style="padding:14px;border-color:rgba(251,146,60,0.3)">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+        <svg width="14" height="14" fill="#fb923c" viewBox="0 0 24 24"><path d="M7 2v11h3v9l7-12h-4l4-8z"/></svg>
+        <span style="font-size:13px;font-weight:600;color:#fb923c">Recherches isolées</span>
       </div>
+      <div style="font-size:12px;color:var(--muted)">NIR, Téléphone, Email, Plaque, VIN, IBAN</div>
+    </div>
+  </div>
+
+  <div class="src-group" style="padding:20px;margin-bottom:16px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+      <span style="font-size:13px;font-weight:600;color:var(--fg)">Critères de recherche</span>
+      <button onclick="clearAllCrit()" id="clearCritBtn" style="display:none;background:none;border:none;color:var(--red);font-size:12px;cursor:pointer;display:flex;align-items:center;gap:4px">
+        <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+        Tout effacer
+      </button>
     </div>
 
-    <div class="crit-section" style="margin-top:12px">
-      <div class="crit-section-title">
-        <span class="crit-badge iso">ISOLÉES</span>
-        <span style="font-size:11px;color:var(--muted)">NIR, Téléphone, Email, Plaque, VIN, IBAN</span>
-      </div>
-      <div class="crit-grid">
-        <label class="crit-toggle"><input type="checkbox" value="NIR" onchange="toggleCritIso(this)"><span># NIR</span></label>
-        <label class="crit-toggle"><input type="checkbox" value="Telephone" onchange="toggleCritIso(this)"><span>📞 Téléphone</span></label>
-        <label class="crit-toggle"><input type="checkbox" value="Email" onchange="toggleCritIso(this)"><span>✉️ Email</span></label>
-        <label class="crit-toggle"><input type="checkbox" value="Plaque" onchange="toggleCritIso(this)"><span>🚗 Plaque</span></label>
-        <label class="crit-toggle"><input type="checkbox" value="VIN" onchange="toggleCritIso(this)"><span>🔧 VIN</span></label>
-        <label class="crit-toggle"><input type="checkbox" value="IBAN" onchange="toggleCritIso(this)"><span>🏦 IBAN</span></label>
-      </div>
+    <div id="critValuesArea" style="display:flex;flex-direction:column;gap:8px;margin-bottom:10px"></div>
+
+    <div class="add-crit-btn" onclick="openSearcherPicker()">
+      <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+      Ajouter un critère
     </div>
 
-    <div id="critValuesArea" style="margin-top:10px;display:flex;flex-direction:column;gap:7px"></div>
+    <div style="display:flex;align-items:center;gap:10px;margin:14px 0;color:var(--muted);font-size:11px;font-weight:600;letter-spacing:0.5px">
+      <div style="flex:1;height:1px;background:var(--border)"></div>
+      <span>OU RECHERCHE RAPIDE</span>
+      <div style="flex:1;height:1px;background:var(--border)"></div>
+    </div>
 
-    <div class="search-divider"><span>OU RECHERCHE RAPIDE</span></div>
+    <div class="search-input-wrap" style="margin-bottom:14px">
+      <svg class="search-icon" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+      <input id="searcherQuick" class="search-input" type="text" placeholder="Recherche libre: nom, téléphone, email, plaque..." onkeydown="if(event.key==='Enter')launchSearcher()">
+    </div>
 
-    <div class="search-input-row">
-      <div class="search-input-wrap" style="flex:1">
-        <svg class="search-icon" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-        <input id="searcherQuick" class="search-input" type="text" placeholder="Nom, téléphone, email, plaque..." onkeydown="if(event.key==='Enter')launchSearcher()">
-      </div>
-      <button class="search-btn" id="searcherBtn" onclick="launchSearcher()">Rechercher</button>
-      <label style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);cursor:pointer;white-space:nowrap">
-        <input type="checkbox" id="wildcardToggle" style="width:13px;height:13px;accent-color:var(--accent)"> Wildcard
+    <div style="display:flex;gap:10px;align-items:center">
+      <button onclick="launchSearcher()" id="searcherBtn" class="search-btn" style="flex:1;border-radius:8px;font-size:14px">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+        Lancer la recherche
+      </button>
+      <label style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--muted);cursor:pointer;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;white-space:nowrap">
+        <input type="checkbox" id="wildcardToggle" style="accent-color:var(--accent);width:13px;height:13px"> Wildcard
       </label>
+    </div>
+  </div>
+
+  <!-- Picker modal -->
+  <div id="searcherPicker" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:999;align-items:center;justify-content:center">
+    <div style="background:#1a1a1a;border:1px solid var(--border);border-radius:14px;padding:22px;width:520px;max-width:95vw">
+      <div style="font-size:14px;font-weight:700;margin-bottom:16px;color:var(--fg)">Ajouter un critère</div>
+      <div style="font-size:11px;font-weight:700;color:var(--fg);letter-spacing:1px;margin-bottom:10px">COMBINABLES</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px">
+        <button class="picker-btn" onclick="addCrit('Nom','Nom')"><svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12z"/></svg> Nom</button>
+        <button class="picker-btn" onclick="addCrit('Prenom','Prénom')"><svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12z"/></svg> Prénom</button>
+        <button class="picker-btn" onclick="addCrit('Date','Date de naissance')"><svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"/></svg> Date de naissance</button>
+        <button class="picker-btn" onclick="addCrit('CodePostal','Code Postal')"><svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg> Code Postal</button>
+        <button class="picker-btn" onclick="addCrit('Rue','Rue')"><svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg> Rue</button>
+        <button class="picker-btn" onclick="addCrit('Ville','Ville')"><svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M15 11V5l-3-3-3 3v2H3v14h18V11h-6zm-8 8H5v-2h2v2zm0-4H5v-2h2v2zm0-4H5V9h2v2zm6 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V9h2v2zm0-4h-2V5h2v2zm6 12h-2v-2h2v2zm0-4h-2v-2h2v2z"/></svg> Ville</button>
+      </div>
+      <div style="font-size:11px;font-weight:700;color:#fb923c;letter-spacing:1px;margin-bottom:10px">ISOLÉES</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:18px">
+        <button class="picker-btn iso" onclick="addCrit('NIR','NIR')"># NIR</button>
+        <button class="picker-btn iso" onclick="addCrit('Telephone','Téléphone')"><svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg> Téléphone</button>
+        <button class="picker-btn iso" onclick="addCrit('Email','Email')"><svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg> Email</button>
+        <button class="picker-btn iso" onclick="addCrit('Plaque','Plaque')"><svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99z"/></svg> Plaque</button>
+        <button class="picker-btn iso" onclick="addCrit('VIN','VIN')"><svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M22.61 16.95L19 13.34l1.37-1.37-4.24-4.24-1.38 1.38-3.08-3.09C10.8 5.02 9.4 4.5 8 4.5c-1.4 0-2.8.52-3.87 1.55L2 8.18l1.41 1.41.69-.69 1.07 1.07-.69.68 1.41 1.41.69-.68 6.36 6.36-.68.69 1.41 1.41.68-.69 1.07 1.07-.68.69 1.41 1.41 2.13-2.13c2.07-2.08 2.07-5.42 0-7.5l-.89-.85z"/></svg> VIN</button>
+        <button class="picker-btn iso" onclick="addCrit('IBAN','IBAN')"><svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg> IBAN</button>
+      </div>
+      <button onclick="closeSearcherPicker()" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px;color:var(--muted);font-size:13px;cursor:pointer">Fermer</button>
     </div>
   </div>
 
@@ -1200,4 +1244,60 @@ function e(s) {
 }
 </script>
 </body>
-</html>
+</html>// ── Searcher FR ───────────────────────────────────────────────────────────────
+var searcherCriteria = []; // [{key, label, value}]
+var lastSearcherResults = null;
+
+function openSearcherPicker() {
+  var el = document.getElementById('searcherPicker');
+  el.style.display = 'flex';
+}
+function closeSearcherPicker() {
+  document.getElementById('searcherPicker').style.display = 'none';
+}
+
+function addCrit(key, label) {
+  closeSearcherPicker();
+  // Si isolee, vider les autres
+  var isoKeys = ['NIR','Telephone','Email','Plaque','VIN','IBAN'];
+  if (isoKeys.indexOf(key) !== -1) {
+    searcherCriteria = [];
+  }
+  // Pas de doublon
+  if (searcherCriteria.find(function(c){return c.key===key;})) {
+    renderCritRows(); return;
+  }
+  searcherCriteria.push({key: key, label: label, value: ''});
+  renderCritRows();
+}
+
+function clearAllCrit() {
+  searcherCriteria = [];
+  renderCritRows();
+}
+
+function removeCrit(key) {
+  searcherCriteria = searcherCriteria.filter(function(c){return c.key!==key;});
+  renderCritRows();
+}
+
+function renderCritRows() {
+  var area = document.getElementById('critValuesArea');
+  var clearBtn = document.getElementById('clearCritBtn');
+  area.innerHTML = '';
+  if (clearBtn) clearBtn.style.display = searcherCriteria.length ? 'flex' : 'none';
+  searcherCriteria.forEach(function(c, i) {
+    var row = document.createElement('div');
+    row.className = 'crit-row-card';
+    row.innerHTML = '<div class="crit-row-label">' + e(c.label) + '</div><input class="crit-row-input" type="text" placeholder="Valeur..." value="' + e(c.value) + '" oninput="searcherCriteria['+i+'].value=this.value"><button class="crit-row-del" onclick="removeCrit(''+c.key+'')">&#x2715;</button>';
+    area.appendChild(row);
+  });
+}
+
+function exportSearcherJSON() {
+  if (!lastSearcherResults) return;
+  dl(JSON.stringify(lastSearcherResults, null, 2), 'searcher.json', 'application/json');
+  showToast('JSON telecharge', 'ok');
+}
+
+
