@@ -1300,6 +1300,126 @@ function exportSearcherJSON() {
   dl(JSON.stringify(lastSearcherResults, null, 2), 'searcher.json', 'application/json');
   showToast('JSON telecharge', 'ok');
 }
+
+async function launchSearcher() {
+  var btn = document.getElementById('searcherBtn');
+  btn.disabled = true; btn.textContent = 'Recherche en cours...';
+
+  var quick = document.getElementById('searcherQuick').value.trim();
+  var wildcard = document.getElementById('wildcardToggle').checked;
+
+  var criteriaArr = searcherCriteria.filter(function(c){ return (c.value||'').trim(); });
+
+  if (!quick && criteriaArr.length === 0) {
+    showToast('Entrez au moins un critere', 'warn');
+    btn.disabled = false; btn.textContent = 'Lancer la recherche'; return;
+  }
+
+  var query = quick || criteriaArr.map(function(c){return c.label+': '+c.value.trim();}).join(', ');
+  var area = document.getElementById('searcherResults');
+  area.innerHTML = '<div class="job-card"><div class="jspinner"></div><div class="jstatus">Recherche dans les bases françaises...</div><div class="jinfo">'+e(query)+'</div><div class="progress-bar-wrap"><div class="progress-bar" id="searcherBar" style="width:5%"></div></div></div>';
+
+  var prog = 5;
+  var pi = setInterval(function() {
+    prog = Math.min(prog+0.5, 90);
+    var pb = document.getElementById('searcherBar');
+    if (pb) pb.style.width = prog + '%';
+    else clearInterval(pi);
+  }, 1000);
+
+  try {
+    var controller = new AbortController();
+    var timer = setTimeout(function(){ controller.abort(); }, 150000);
+    var resp = await fetch('/api/searcher', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({query: query, wildcard: wildcard, criteria: criteriaArr, quickSearch: quick}),
+      signal: controller.signal
+    });
+    clearTimeout(timer);
+    clearInterval(pi);
+    var pb2 = document.getElementById('searcherBar');
+    if (pb2) pb2.style.width = '100%';
+    var data = await resp.json();
+    if (!resp.ok) { showToast(data.error || 'Erreur', 'err'); area.innerHTML = ''; btn.disabled = false; btn.textContent = 'Lancer la recherche'; return; }
+    setTimeout(function(){ renderSearcherResults(data); }, 300);
+  } catch(err) {
+    clearInterval(pi);
+    showToast(err.name === 'AbortError' ? 'Timeout' : 'Erreur: ' + err.message, 'err');
+    area.innerHTML = '';
+  }
+  btn.disabled = false; btn.textContent = 'Lancer la recherche';
+}
+
+function renderSearcherResults(data) {
+  lastSearcherResults = data;
+  var area = document.getElementById('searcherResults');
+  var sources = data.sources || [];
+  var total = data.count || 0;
+  area.innerHTML = '';
+
+  if (!sources.length) {
+    area.innerHTML = '<div class="empty-state"><svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg><p>Aucun resultat</p></div>';
+    showToast('Aucun resultat', 'warn'); return;
+  }
+
+  var hd = document.createElement('div');
+  hd.className = 'results-hd';
+  hd.innerHTML = '<div class="results-info">Requete: <strong>'+e(data.query||'')+'</strong> &middot; <strong>'+total+'</strong> resultat(s)</div><div class="res-actions"><button class="res-btn" onclick="exportSearcherJSON()">JSON</button></div>';
+  area.appendChild(hd);
+
+  var palette = ['#f472b6','#fb923c','#4ade80','#38bdf8','#a78bfa','#fbbf24','#34d399','#60a5fa'];
+
+  function makeCard(entry, idx) {
+    var card = document.createElement('div');
+    card.className = 'res-card';
+    var html = '<div class="res-entry-num">#'+idx+'</div>';
+    if (typeof entry !== 'object' || !entry) {
+      html += '<div class="res-row"><span class="res-v">'+e(String(entry))+'</span></div>';
+    } else {
+      Object.keys(entry).forEach(function(k) {
+        var v = entry[k];
+        if (!v || v === 'null') return;
+        var kl = k.toLowerCase();
+        var isPass = kl.indexOf('pass') !== -1 || kl === 'mot de passe' || kl === 'mdp';
+        var isHL = kl === 'email' || kl === 'telephone' || kl.indexOf('phone') !== -1;
+        html += '<div class="res-row"><span class="res-k">'+e(k)+'</span><span class="res-v'+(isPass?' red':isHL?' hl':'')+'">'+e(String(v))+'</span></div>';
+      });
+    }
+    card.innerHTML = html;
+    return card;
+  }
+
+  sources.forEach(function(src, si) {
+    var color = palette[si % palette.length];
+    var subSources = src.subSources || [];
+    var entries = src.entries || [];
+    var count = src.count || 0;
+    var bodyId = 'srb'+si;
+
+    var grp = document.createElement('div');
+    grp.className = 'src-group exp';
+    grp.innerHTML = '<div class="src-group-hd" onclick="this.parentElement.classList.toggle(&quot;exp&quot;)"><span class="src-indicator" style="background:'+color+'"></span><span class="src-gname">'+e(src.sourceName||'')+'</span><span class="src-gcnt has">'+count+'</span><svg class="src-chevron" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg></div><div class="src-group-body" id="'+bodyId+'"></div>';
+    area.appendChild(grp);
+    var body = document.getElementById(bodyId);
+
+    subSources.forEach(function(sub, ssi) {
+      var sc2 = palette[(si+ssi+3)%palette.length];
+      var subId = 'srs'+si+'_'+ssi;
+      var subGrp = document.createElement('div');
+      subGrp.className = 'src-group exp';
+      subGrp.style.marginLeft = '10px';
+      subGrp.innerHTML = '<div class="src-group-hd" onclick="this.parentElement.classList.toggle(&quot;exp&quot;)"><span class="src-indicator" style="background:'+sc2+'"></span><span class="src-gname">'+e(sub.sourceName||'')+'</span><span class="src-gcnt has">'+(sub.count||0)+'</span><svg class="src-chevron" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg></div><div class="src-group-body" id="'+subId+'"></div>';
+      body.appendChild(subGrp);
+      var subBody = document.getElementById(subId);
+      (sub.entries||[]).slice(0,300).forEach(function(entry,ei){ subBody.appendChild(makeCard(entry,ei+1)); });
+    });
+
+    entries.slice(0,300).forEach(function(entry,ei){ body.appendChild(makeCard(entry,ei+1)); });
+  });
+
+  showToast(total+' resultats!', 'ok');
+}
 </script>
 </body>
 </html>
