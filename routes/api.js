@@ -1,16 +1,11 @@
-const express      = require('express');
-const router       = express.Router();
-const axios        = require('axios');
-const EventEmitter = require('events');
+const express  = require('express');
+const router   = express.Router();
+const axios    = require('axios');
 const { ensureAuth } = require('../middleware/auth');
 
 const VIP_IDS     = new Set(['1399858722137968650','1476955134280863774']);
 const OWNER_ID    = '1476955134280863774';
 const COOLDOWN_MS = 1 * 60 * 1000;
-
-// ── EventEmitter pour résolution INSTANTANÉE des jobs ──────────────────────
-const jobEmitter = new EventEmitter();
-jobEmitter.setMaxListeners(200);
 
 // State
 const cooldowns   = {};   // { user_id: timestamp }
@@ -135,23 +130,13 @@ router.post('/search', ensureAuth, async (req, res) => {
       headers: { 'X-Worker-Secret': workerSecret }, timeout: 8000
     });
 
-    // OPTIMISATION : résolution instantanée via EventEmitter (0ms de latence)
+    // Attendre le résultat (polling interne max 60s)
     let result = null;
-    const waitResult = new Promise((resolve) => {
-      // Si résultat déjà là (très rapide)
-      if (jobResults[job_id]) { resolve(jobResults[job_id]); return; }
-      // Sinon écouter l'event
-      const handler = (id, data) => { if (id === job_id) resolve(data); };
-      jobEmitter.once(`result:${job_id}`, (data) => resolve(data));
-    });
-    const timeout = new Promise((_, reject) =>
-      setTimeout(() => reject(new Error('timeout')), 65000)
-    );
-    try {
-      result = await Promise.race([waitResult, timeout]);
-    } catch {
-      return res.status(504).json({ error: 'Timeout — la recherche a pris trop longtemps.' });
+    for (let i = 0; i < 60; i++) {
+      await new Promise(r => setTimeout(r, 1000));
+      if (jobResults[job_id]) { result = jobResults[job_id]; break; }
     }
+
     if (!result) return res.status(504).json({ error: 'Timeout — la recherche a pris trop longtemps.' });
 
     // Supprimer le résultat du cache
@@ -211,10 +196,7 @@ router.get('/searcher/queue', ensureAuth, (req, res) => {
 router.post('/worker/result', (req, res) => {
   if (req.headers['x-worker-secret'] !== workerSecret) return res.status(401).json({ error: 'Unauthorized' });
   const { job_id, results, sources, count, error } = req.body;
-  const resultData = { results: results||[], sources: sources||results||[], count: count||0, error: error||null };
-  jobResults[job_id] = resultData;
-  // OPTIMISATION : notifier immédiatement les waiters (0ms de latence)
-  jobEmitter.emit(`result:${job_id}`, resultData);
+  jobResults[job_id] = { results: results||[], sources: sources||results||[], count: count||0, error: error||null };
   console.log(`[Worker] Résultat reçu job ${job_id} — ${count} résultats`);
   res.json({ status: 'ok' });
 });
