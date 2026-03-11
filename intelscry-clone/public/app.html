@@ -612,7 +612,6 @@ html, body { height: 100%; margin: 0; }
   </div>
   <div class="tb-stat green"><strong id="pill-searches">—</strong> rech.</div>
 
-  <button id="adminBtn" onclick="openAdmin()" style="display:none;background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.3);color:#ef4444;border-radius:8px;padding:4px 10px;font-size:11px;font-weight:700;cursor:pointer;gap:4px;align-items:center">⚙ Admin</button>
   <div class="topbar-spacer"></div>
   <button class="lang-toggle" id="langToggle" onclick="toggleLang()" title="Switch language">
     <span class="lang-fr">FR</span><span class="lang-en" style="display:none">EN</span>
@@ -632,21 +631,7 @@ html, body { height: 100%; margin: 0; }
   </div>
 </header>
 
-<!-- GLOBAL ANNOUNCE BANNER -->
-<div id="announceBanner" style="display:none;background:#1a1a2e;border-bottom:1px solid #ef4444;padding:8px 16px;text-align:center;font-size:13px;color:#fca5a5;z-index:99;flex-shrink:0;align-items:center;justify-content:center;gap:8px">
-  <span id="announceBannerIcon">📢</span>
-  <span id="announceBannerText"></span>
-</div>
-
 <!-- LAYOUT -->
-<!-- GLOBAL STATS BAR -->
-<div class="global-stats-bar" id="globalStatsBar">
-  <div class="gstat"><span class="gstat-dot"></span><strong id="gstat-total">—</strong> recherches totales</div>
-  <div class="gstat">|</div>
-  <div class="gstat"><strong id="gstat-online" style="color:var(--green)">—</strong> en ligne</div>
-  <div class="gstat">|</div>
-  <div class="gstat"><strong id="gstat-results">—</strong> resultats trouves aujourd'hui</div>
-</div>
 <div class="layout">
 
 <!-- SIDEBAR -->
@@ -685,65 +670,6 @@ html, body { height: 100%; margin: 0; }
     <span class="plan-tag" id="plan-name"><span class="lang-fr">Gratuit</span><span class="lang-en" style="display:none">Free</span></span>
   </div>
 </nav>
-
-<!-- ── ADMIN PANEL ── -->
-<div id="adminModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:10000;align-items:center;justify-content:center;padding:16px">
-  <div style="background:#16181c;border:1px solid #ef4444;border-radius:16px;max-width:480px;width:100%;padding:28px 24px">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
-      <span style="font-size:16px;font-weight:700;color:#ef4444">⚙ Panel Admin</span>
-      <button onclick="closeAdmin()" style="background:none;border:none;color:#6b7280;font-size:18px;cursor:pointer">✕</button>
-    </div>
-
-    <!-- Status -->
-    <div style="margin-bottom:18px">
-      <label style="font-size:12px;color:#9ca3af;font-weight:600;display:block;margin-bottom:8px">STATUS DU SERVICE</label>
-      <div style="display:flex;flex-wrap:wrap;gap:8px">
-        <button class="status-opt" data-status="operational" onclick="selectStatus(this)" style="flex:1;min-width:100px;padding:8px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid #22c55e;background:rgba(34,197,94,0.1);color:#22c55e">✅ Opérationnel</button>
-        <button class="status-opt" data-status="degraded" onclick="selectStatus(this)" style="flex:1;min-width:100px;padding:8px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid #2a2d35;background:#1e2028;color:#6b7280">⚠️ Dégradé</button>
-        <button class="status-opt" data-status="maintenance" onclick="selectStatus(this)" style="flex:1;min-width:100px;padding:8px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid #2a2d35;background:#1e2028;color:#6b7280">🔧 Maintenance</button>
-        <button class="status-opt" data-status="shutdown" onclick="selectStatus(this)" style="flex:1;min-width:100px;padding:8px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid #2a2d35;background:#1e2028;color:#6b7280">🔴 Shutdown</button>
-      </div>
-    </div>
-
-    <!-- Announce -->
-    <div style="margin-bottom:18px">
-      <label style="font-size:12px;color:#9ca3af;font-weight:600;display:block;margin-bottom:8px">ANNONCE GLOBALE</label>
-      <textarea id="adminAnnounceText" placeholder="Message affiché à tous les utilisateurs... (vide = aucune annonce)" style="width:100%;background:#1e2028;border:1px solid #2a2d35;border-radius:8px;padding:10px;color:#fff;font-size:13px;resize:vertical;min-height:80px;box-sizing:border-box;outline:none"></textarea>
-    </div>
-
-    <div style="display:flex;gap:10px">
-      <button onclick="clearAnnounce()" style="flex:1;background:#1e2028;border:1px solid #2a2d35;color:#9ca3af;border-radius:8px;padding:10px;font-size:13px;cursor:pointer">🗑 Effacer</button>
-      <button onclick="publishAnnounce()" style="flex:2;background:#ef4444;color:#fff;border:none;border-radius:8px;padding:10px;font-size:13px;font-weight:700;cursor:pointer">📢 Publier</button>
-    </div>
-  </div>
-</div>
-
-<!-- ── WELCOME MODAL ── -->
-<div id="welcomeModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.82);z-index:9999;align-items:center;justify-content:center;padding:16px">
-  <div style="background:#16181c;border:1px solid #2a2d35;border-radius:16px;max-width:520px;width:100%;padding:32px 28px;position:relative">
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:22px">
-      <span style="font-size:22px">👁️</span>
-      <span style="font-size:18px;font-weight:700;color:#fff">Bienvenue sur <span style="color:#ef4444">9look</span></span>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:24px">
-      <div style="background:#1e2028;border:1px solid #2a2d35;border-radius:12px;padding:16px">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
-          <span style="font-size:16px">🔍</span>
-          <span style="font-weight:700;color:#fff;font-size:14px">Recherche Multi-Source</span>
-        </div>
-        <p style="color:#9ca3af;font-size:13px;line-height:1.5;margin:0">Recherche dans <strong style="color:#d1d5db">16+ bases de données</strong> à partir d'un identifiant connu : adresse email, pseudo, ID Discord, numéro de téléphone, etc. Idéal pour retrouver toutes les fuites liées à une personne.</p>
-      </div>
-      <div style="background:#1e2028;border:1px solid #2a2d35;border-radius:12px;padding:16px">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
-          <span style="font-size:16px">🇫🇷</span>
-          <span style="font-weight:700;color:#fff;font-size:14px">Searcher FR</span>
-        </div>
-        <p style="color:#9ca3af;font-size:13px;line-height:1.5;margin:0">Recherche dans des <strong style="color:#d1d5db">bases françaises</strong> à partir d'informations civiles : nom, prénom, email, numéro, adresse. Permet de croiser plusieurs critères pour identifier précisément une personne.</p>
-      </div>
-    </div>
-    <button onclick="closeWelcome()" style="width:100%;background:#ef4444;color:#fff;border:none;border-radius:10px;padding:12px;font-size:14px;font-weight:700;cursor:pointer">Commencer →</button>
-  </div>
-</div>
 
 <!-- ── SEARCH VIEW ── -->
 <div class="view active" id="view-search">
@@ -924,17 +850,6 @@ html, body { height: 100%; margin: 0; }
       <div class="pstat"><div class="pval" id="ps-s">—</div><div class="plbl">Recherches</div></div>
       <div class="pstat"><div class="pval" id="ps-rank">#—</div><div class="plbl"><span class="lang-fr">Classement</span><span class="lang-en" style="display:none">Ranking</span></div></div>
       <div class="pstat"><div class="pval" id="ps-cd">—</div><div class="plbl">Cooldown</div></div>
-    </div>
-  </div>
-
-  <!-- SEARCH HISTORY -->
-  <div style="padding:0 16px 16px">
-    <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between">
-      Historique des recherches
-      <button onclick="clearHistory()" style="background:none;border:none;color:var(--muted);font-size:11px;cursor:pointer;text-transform:none;font-weight:400">Effacer</button>
-    </div>
-    <div class="history-list" id="historyList">
-      <div style="font-size:12px;color:var(--muted);text-align:center;padding:20px 0">Aucune recherche encore</div>
     </div>
   </div>
 </div>
@@ -1473,220 +1388,7 @@ async function init() {
   setInterval(loadStatus, 30000);
   setInterval(checkWorkerState, 8000);
   setInterval(loadLeaderboard, 15000);
-  showWelcomeIfNew();
-  loadAnnounce();
-  setInterval(loadAnnounce, 20000);
-  renderHistory();
 }
-
-// ── ADMIN PANEL ──
-var adminCurrentStatus = 'operational';
-
-function openAdmin() {
-  loadAnnounce();
-  document.getElementById('adminModal').style.display = 'flex';
-}
-function closeAdmin() {
-  document.getElementById('adminModal').style.display = 'none';
-}
-function selectStatus(btn) {
-  document.querySelectorAll('.status-opt').forEach(function(b) {
-    b.style.borderColor = '#2a2d35';
-    b.style.background = '#1e2028';
-    b.style.color = '#6b7280';
-  });
-  var colors = {operational:'#22c55e', degraded:'#f59e0b', maintenance:'#3b82f6', shutdown:'#ef4444'};
-  var c = colors[btn.dataset.status] || '#6b7280';
-  btn.style.borderColor = c;
-  btn.style.background = 'rgba('+hexToRgb(c)+',0.12)';
-  btn.style.color = c;
-  adminCurrentStatus = btn.dataset.status;
-}
-function hexToRgb(hex) {
-  var r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
-  return r+','+g+','+b;
-}
-async function publishAnnounce() {
-  var msg = document.getElementById('adminAnnounceText').value.trim();
-  try {
-    await fetch('/api/admin/announce', {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({message: msg, status: adminCurrentStatus})
-    });
-    closeAdmin();
-    loadAnnounce();
-  } catch(e) { alert('Erreur: ' + e.message); }
-}
-async function clearAnnounce() {
-  document.getElementById('adminAnnounceText').value = '';
-  try {
-    await fetch('/api/admin/announce', {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({message: '', status: 'operational'})
-    });
-    closeAdmin();
-    loadAnnounce();
-  } catch(e) {}
-}
-async function loadAnnounce() {
-  try {
-    var r = await fetch('/api/announce');
-    var d = await r.json();
-    var banner = document.getElementById('announceBanner');
-    if (d.message && d.message.trim()) {
-      var icons = {operational:'✅', degraded:'⚠️', maintenance:'🔧', shutdown:'🔴'};
-      document.getElementById('announceBannerIcon').textContent = icons[d.status] || '📢';
-      document.getElementById('announceBannerText').textContent = d.message;
-      var colors = {operational:'#16301e', degraded:'#1a1700', maintenance:'#0f1729', shutdown:'#1a0a0a'};
-      var borders = {operational:'#22c55e', degraded:'#f59e0b', maintenance:'#3b82f6', shutdown:'#ef4444'};
-      banner.style.background = colors[d.status] || '#1a1a2e';
-      banner.style.borderBottomColor = borders[d.status] || '#ef4444';
-      banner.style.display = 'flex';
-      // Pre-fill admin panel
-      document.getElementById('adminAnnounceText').value = d.message;
-      var btn = document.querySelector('.status-opt[data-status="'+d.status+'"]');
-      if (btn) selectStatus(btn);
-    } else {
-      banner.style.display = 'none';
-    }
-  } catch(e) {}
-}
-
-
-// ── SEARCH HISTORY ──
-var searchHistory = JSON.parse(localStorage.getItem('9look_history') || '[]');
-
-function saveToHistory(query, type, count) {
-  var item = { query: query, type: type || detectType(query), count: count, ts: Date.now() };
-  searchHistory = searchHistory.filter(function(h) { return h.query !== query; });
-  searchHistory.unshift(item);
-  if (searchHistory.length > 15) searchHistory.pop();
-  localStorage.setItem('9look_history', JSON.stringify(searchHistory));
-  renderHistory();
-}
-
-function renderHistory() {
-  var list = document.getElementById('historyList');
-  if (!list) return;
-  if (!searchHistory.length) {
-    list.innerHTML = '<div style="font-size:12px;color:var(--muted);text-align:center;padding:20px 0">Aucune recherche encore</div>';
-    return;
-  }
-  list.innerHTML = searchHistory.map(function(h) {
-    var ago = timeAgo(h.ts);
-    return '<div class="history-item" onclick="replaySearch(''+h.query.replace(/'/g,"\'")+'')">'
-      +'<svg width="12" height="12" fill="var(--muted)" viewBox="0 0 24 24" style="flex-shrink:0"><path d="M13 3a9 9 0 1 0 0 18A9 9 0 0 0 13 3zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg>'
-      +'<span class="history-q">'+e(h.query)+'</span>'
-      +'<span class="history-type">'+e(h.type||'—')+'</span>'
-      +(h.count ? '<span class="history-results">'+h.count+' res</span>' : '')
-      +'<span class="history-meta">'+ago+'</span>'
-      +'</div>';
-  }).join('');
-}
-
-function clearHistory() {
-  searchHistory = [];
-  localStorage.removeItem('9look_history');
-  renderHistory();
-}
-
-function replaySearch(q) {
-  navigate('search');
-  var inp = document.getElementById('searchInput');
-  if (inp) { inp.value = q; inp.dispatchEvent(new Event('input')); }
-  setTimeout(submitSearch, 100);
-}
-
-function timeAgo(ts) {
-  var d = Date.now() - ts;
-  if (d < 60000) return 'maintenant';
-  if (d < 3600000) return Math.floor(d/60000)+'min';
-  if (d < 86400000) return Math.floor(d/3600000)+'h';
-  return Math.floor(d/86400000)+'j';
-}
-
-// ── COPY RESULTS ──
-function copyResults() {
-  if (!lastResults) return;
-  var lines = [];
-  lines.push('9look — Recherche: ' + lastResults.query);
-  lines.push('Date: ' + new Date().toLocaleString('fr-FR'));
-  lines.push('');
-  (lastResults.sources || []).forEach(function(src) {
-    var entries = src.entries || src.results || [];
-    if (!entries.length) return;
-    lines.push('[ ' + (src.sourceName || src.source) + ' — ' + entries.length + ' résultats ]');
-    entries.forEach(function(entry, i) {
-      lines.push('  #' + (i+1));
-      if (typeof entry === 'object') {
-        Object.keys(entry).forEach(function(k) {
-          if (entry[k]) lines.push('    ' + k + ': ' + entry[k]);
-        });
-      } else { lines.push('    ' + entry); }
-    });
-    lines.push('');
-  });
-  navigator.clipboard.writeText(lines.join('\n')).then(function() {
-    var btn = document.getElementById('copyResBtn');
-    if (btn) { btn.textContent = 'Copie!'; btn.classList.add('copied'); setTimeout(function(){ btn.textContent = 'Copier'; btn.classList.remove('copied'); }, 2000); }
-    showToast('Resultats copies dans le presse-papier', 'ok');
-  });
-}
-
-// ── ACTIVITY FEED ──
-var activityQueue = [];
-var activityShowing = false;
-
-function spawnActivityItem(html) {
-  activityQueue.push(html);
-  if (!activityShowing) processActivityQueue();
-}
-
-function processActivityQueue() {
-  if (!activityQueue.length) { activityShowing = false; return; }
-  activityShowing = true;
-  var feed = document.getElementById('activityFeed');
-  var item = document.createElement('div');
-  item.className = 'activity-item';
-  item.innerHTML = html = activityQueue.shift();
-  feed.appendChild(item);
-  setTimeout(function() {
-    item.style.transition = 'opacity 0.5s';
-    item.style.opacity = '0';
-    setTimeout(function() { if (item.parentNode) item.parentNode.removeChild(item); processActivityQueue(); }, 500);
-  }, 3500);
-}
-
-// ── GLOBAL STATS ──
-var globalStats = { total: 0, results: 0 };
-
-function updateGlobalStats(newResults) {
-  globalStats.total++;
-  globalStats.results += (newResults || 0);
-  var t = document.getElementById('gstat-total');
-  var r = document.getElementById('gstat-results');
-  if (t) t.textContent = globalStats.total;
-  if (r) r.textContent = globalStats.results;
-}
-
-// Update online count in global stats bar
-socket.on('online:count', function(n) {
-  var el = document.getElementById('gstat-online');
-  if (el) el.textContent = n;
-  var oc = document.getElementById('online-count');
-  if (oc) oc.textContent = n;
-});
-
-
-function closeWelcome() {
-  document.getElementById('welcomeModal').style.display = 'none';
-}
-function showWelcomeIfNew() {
-  document.getElementById('welcomeModal').style.display = 'flex';
-}
-
 
 async function loadMe() {
   try {
@@ -1698,7 +1400,6 @@ async function loadMe() {
     document.getElementById('topbarAvatar').src = u.avatar;
     document.getElementById('topbarName').textContent = u.username;
     if (isOwner) document.getElementById('topbarCrown').style.display = 'inline';
-    if (isOwner) { var ab = document.getElementById('adminBtn'); if(ab) ab.style.display = 'inline-flex'; }
     document.getElementById('pill-searches').textContent = u.searches || 0;
     document.getElementById('plan-name').textContent = u.plan || 'Free';
     document.getElementById('stat-searches').textContent = u.searches || 0;
@@ -1779,7 +1480,7 @@ async function submitSearch() {
   btn.disabled = true; btn.textContent = 'Recherche...';
 
   var area = document.getElementById('resultsArea');
-  area.innerHTML = '<div class="search-loading"><div class="search-loading-orb"></div><div class="search-loading-text">Recherche en cours...</div><div class="search-loading-query typewriter">' + e(q) + '</div><div class="skeleton" style="width:200px;margin-top:8px"></div><div class="skeleton" style="width:140px"></div></div>';
+  area.innerHTML = '<div class="job-card"><div class="jspinner"></div><div class="jstatus">Recherche en cours sur IntelScry...</div><div class="jinfo">Requete : <strong>' + e(q) + '</strong></div><div class="progress-bar-wrap"><div class="progress-bar" id="progressBar" style="width:5%"></div></div></div>';
 
   var prog = 5;
   var progInt = setInterval(function() {
@@ -1837,17 +1538,7 @@ function renderResults(query, type, data) {
   if (!totalCount) sources.forEach(function(s){ totalCount += (s.count || (s.entries && s.entries.length) || 0); });
   lastResults = {query: query, type: type, sources: sources};
 
-  // Risk score
-  var risk = totalCount === 0 ? 0 : totalCount < 3 ? 1 : totalCount < 10 ? 2 : 3;
-  var riskLabels = ['Aucune fuite','Exposition faible','Exposition moderee','Exposition elevee'];
-  var riskBadge = '<span class="risk-badge risk-'+risk+'">'+riskLabels[risk]+'</span>';
-
-  area.innerHTML = '<div class="results-hd"><div class="results-info" style="display:flex;align-items:center;flex-wrap:wrap;gap:8px">'+riskBadge+'<span>Requete: <strong>'+e(query)+'</strong> &middot; <strong>'+sources.length+'</strong> source(s) &middot; <strong>'+totalCount+'</strong> resultat(s)</span></div><div class="res-actions"><button class="copy-result-btn" id="copyResBtn" onclick="copyResults()">Copier</button><button class="res-btn" onclick="exportJSON()"><svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>JSON</button><button class="res-btn" onclick="exportCSV()"><svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>CSV</button></div></div>';
-
-  // Save to history
-  saveToHistory(query, type, totalCount);
-  // Spawn activity feed item
-  if (totalCount > 0) spawnActivityItem('Un utilisateur a trouvé <span class="activity-count">'+totalCount+' résultats</span> pour "'+e(query.substring(0,12))+(query.length>12?'...':'')+'"');
+  area.innerHTML = '<div class="results-hd"><div class="results-info">Requete: <strong>' + e(query) + '</strong> &middot; <strong>' + sources.length + '</strong> source(s) &middot; <strong>' + totalCount + '</strong> resultat(s)</div><div class="res-actions"><button class="res-btn" onclick="exportJSON()"><svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>JSON</button><button class="res-btn" onclick="exportCSV()"><svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>CSV</button></div></div>';
 
   if (!sources.length) {
     area.innerHTML += '<div class="empty-state"><svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg><p>Aucun resultat trouve</p></div>';
@@ -1881,13 +1572,7 @@ function renderResults(query, type, data) {
           var kl = k.toLowerCase();
           var isPass = PASS_KEYS.has(kl) || kl.indexOf('pass') !== -1;
           var isHL = HL_KEYS.has(kl) || kl.indexOf('email') !== -1 || kl.indexOf('mail') !== -1;
-          var vStr = e(String(v));
-          // Highlight query match
-          if (query) {
-            var esc = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-            vStr = vStr.replace(new RegExp('('+esc+')', 'gi'), '<span class="hl-match">$1</span>');
-          }
-          html += '<div class="res-row"><span class="res-k">'+e(k)+'</span><span class="res-v'+(isPass?' red':isHL?' hl':'')+'">'+vStr+'</span></div>';
+          html += '<div class="res-row"><span class="res-k">' + e(k) + '</span><span class="res-v' + (isPass ? ' red' : isHL ? ' hl' : '') + '">' + e(String(v)) + '</span></div>';
         });
       }
       card.innerHTML = html;
@@ -1895,7 +1580,6 @@ function renderResults(query, type, data) {
     });
   });
   showToast(totalCount + ' resultat' + (totalCount !== 1 ? 's' : '') + ' — ' + sources.length + ' source' + (sources.length !== 1 ? 's' : '') + '!', 'ok');
-  updateGlobalStats(totalCount);
 }
 
 function startCooldownTimer(ms) {
@@ -2334,9 +2018,6 @@ function renderSearcherResults(data) {
     <span>Profil</span>
   </a>
 </nav>
-
-<!-- ACTIVITY FEED -->
-<div class="activity-feed" id="activityFeed"></div>
 
 </body>
 </html>
