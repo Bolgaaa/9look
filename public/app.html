@@ -1392,25 +1392,7 @@ function closeMobileNav() {
   if (hamburger) hamburger.classList.remove('open');
 }
 // Bind nav items via data-nav (avoids inline onclick timing issues)
-document.addEventListener('DOMContentLoaded', function() {
-  document.querySelectorAll('[data-nav]').forEach(function(el) {
-    el.addEventListener('click', function(ev) {
-      ev.preventDefault();
-      navigate(el.getAttribute('data-nav'));
-    });
-  });
-  // Swipe to close sidebar on mobile
-  var touchStartX = 0;
-  document.addEventListener('touchstart', function(e){ touchStartX = e.touches[0].clientX; }, {passive:true});
-  document.addEventListener('touchend', function(e) {
-    var dx = e.changedTouches[0].clientX - touchStartX;
-    if (dx < -60) closeMobileNav(); // swipe left closes
-  }, {passive:true});
-  init();
-  // Apply saved language
-  var savedLang = localStorage.getItem('9look_lang') || 'fr';
-  if (savedLang !== 'fr') applyLang(savedLang);
-});
+// DOMContentLoaded moved to end of script
 
 const OWNER_ID = '1476955134280863774';
 const SOURCES = {};
@@ -2309,6 +2291,26 @@ function renderSearcherResults(data) {
   showToast(total+' resultats!', 'ok');
 }
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('[data-nav]').forEach(function(el) {
+    el.addEventListener('click', function(ev) {
+      ev.preventDefault();
+      navigate(el.getAttribute('data-nav'));
+    });
+  });
+  // Swipe to close sidebar on mobile
+  var touchStartX = 0;
+  document.addEventListener('touchstart', function(e){ touchStartX = e.touches[0].clientX; }, {passive:true});
+  document.addEventListener('touchend', function(e) {
+    var dx = e.changedTouches[0].clientX - touchStartX;
+    if (dx < -60) closeMobileNav(); // swipe left closes
+  }, {passive:true});
+  init();
+  // Apply saved language
+  var savedLang = localStorage.getItem('9look_lang') || 'fr';
+  if (savedLang !== 'fr') applyLang(savedLang);
+});
 </script>
 <!-- Mobile nav overlay -->
 <div class="mobile-nav-overlay" id="mobileNavOverlay" onclick="closeMobileNav()"></div>
