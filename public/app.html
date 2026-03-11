@@ -1561,10 +1561,8 @@ async function submitSearch() {
       area.innerHTML = '';
       btn.disabled = false; btn.textContent = 'Rechercher'; return;
     }
-    setTimeout(function() {
-      renderResults(data.query, data.type, data);
-      loadLeaderboard(); loadMe();
-    }, 300);
+    renderResults(data.query, data.type, data); // OPTIMISÉ: plus de delay 300ms
+    loadLeaderboard(); loadMe();
   } catch(err) {
     clearInterval(progInt);
     showToast(err.name === 'AbortError' ? 'Timeout — trop long' : 'Erreur: ' + err.message, 'err');
@@ -1876,7 +1874,7 @@ async function launchSearcher() {
     updateQueueBanner(qPos);
 
     while (Date.now() - pollStart < 300000) {
-      await new Promise(function(r){ setTimeout(r, 2000); });
+      await new Promise(function(r){ setTimeout(r, 1000); }); // OPTIMISÉ: 2s→1s
       try {
         var pr = await fetch('/api/searcher/poll/' + jobId);
         if (!pr.ok) continue;
@@ -1899,7 +1897,7 @@ async function launchSearcher() {
     var qBannerEnd = document.getElementById('searcherQueueBanner');
     if (qBannerEnd) qBannerEnd.style.display = 'none';
     if (!pollResult) { showToast('Timeout - reessaie', 'err'); area.innerHTML = ''; btn.disabled = false; btn.textContent = 'Lancer la recherche'; return; }
-    setTimeout(function(){ renderSearcherResults(pollResult); }, 300);
+    renderSearcherResults(pollResult); // OPTIMISÉ: plus de delay 300ms
   } catch(err) {
     clearInterval(pi);
     showToast(err.name === 'AbortError' ? 'Timeout' : 'Erreur: ' + err.message, 'err');
