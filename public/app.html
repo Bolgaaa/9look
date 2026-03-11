@@ -589,6 +589,279 @@ html, body { height: 100%; margin: 0; }
 @media (min-width: 901px) {
   .ad-sidebar-right { display: flex; }
 }
+
+/* ── SIDEBAR DROITE PROMO ─────────────────────────────────────────── */
+.promo-sidebar {
+  width: 200px;
+  flex-shrink: 0;
+  background: var(--bg);
+  border-left: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  padding: 14px 12px;
+  gap: 10px;
+  overflow-y: auto;
+}
+.promo-sidebar::-webkit-scrollbar { width: 0; }
+
+.promo-card {
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  padding: 14px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.promo-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(99,102,241,0.12);
+  border: 1px solid rgba(99,102,241,0.3);
+  border-radius: 4px;
+  padding: 2px 7px;
+  font-size: 10px;
+  font-weight: 700;
+  color: #818cf8;
+  letter-spacing: 0.5px;
+  width: fit-content;
+}
+.promo-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.4;
+}
+.promo-desc {
+  font-size: 11px;
+  color: var(--text2);
+  line-height: 1.6;
+}
+.promo-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  width: 100%;
+  padding: 9px 0;
+  background: #5865F2;
+  color: #fff;
+  border: none;
+  border-radius: 7px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  transition: opacity 0.15s;
+}
+.promo-btn:hover { opacity: 0.85; }
+.promo-btn svg { width: 15px; height: 15px; fill: #fff; flex-shrink: 0; }
+
+.promo-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 2px 0;
+}
+.promo-partner {
+  background: var(--surface2);
+  border: 1px solid rgba(245,158,11,0.25);
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.promo-partner-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(245,158,11,0.1);
+  border: 1px solid rgba(245,158,11,0.3);
+  border-radius: 4px;
+  padding: 2px 7px;
+  font-size: 10px;
+  font-weight: 700;
+  color: #f59e0b;
+  letter-spacing: 0.5px;
+  width: fit-content;
+}
+.promo-partner-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+}
+.promo-partner-desc {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.promo-partner-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  padding: 8px 0;
+  background: rgba(245,158,11,0.1);
+  border: 1px solid rgba(245,158,11,0.3);
+  color: #f59e0b;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.15s;
+}
+.promo-partner-btn:hover { background: rgba(245,158,11,0.2); }
+
+/* ── ANNOUNCE BANNER ─────────────────────────────────────────────── */
+.announce-banner {
+  display: none;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 16px;
+  background: rgba(99,102,241,0.08);
+  border-bottom: 1px solid rgba(99,102,241,0.2);
+  font-size: 12px;
+  color: #a5b4fc;
+  flex-shrink: 0;
+}
+.announce-banner.show { display: flex; }
+.announce-banner.operational { background: rgba(34,197,94,0.07); border-color: rgba(34,197,94,0.2); color: #86efac; }
+.announce-banner.warning { background: rgba(234,179,8,0.08); border-color: rgba(234,179,8,0.2); color: #fde047; }
+.announce-banner.maintenance { background: rgba(239,68,68,0.08); border-color: rgba(239,68,68,0.2); color: #fca5a5; }
+.announce-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex-shrink: 0; animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+.announce-text { flex: 1; }
+.announce-close { background: none; border: none; color: currentColor; cursor: pointer; opacity: 0.6; font-size: 16px; padding: 0 2px; line-height: 1; }
+.announce-close:hover { opacity: 1; }
+
+/* ── PANEL ADMIN ─────────────────────────────────────────────────── */
+.admin-panel-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  z-index: 10000;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+.admin-panel-overlay.open { display: flex; }
+.admin-panel {
+  background: #0d0d0d;
+  border: 1px solid #2a2a2a;
+  border-radius: 14px;
+  width: 100%;
+  max-width: 480px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.admin-panel-hd {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.admin-panel-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+}
+.admin-panel-title .crown { font-size: 16px; }
+.admin-close-btn {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text2);
+  font-size: 18px;
+  width: 30px; height: 30px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+.admin-close-btn:hover { background: var(--surface3); color: var(--text); }
+.admin-section-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.admin-textarea {
+  width: 100%;
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-radius: 7px;
+  padding: 10px 12px;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  color: var(--text);
+  outline: none;
+  resize: vertical;
+  min-height: 80px;
+  transition: border-color 0.15s;
+  box-sizing: border-box;
+}
+.admin-textarea:focus { border-color: rgba(255,255,255,0.2); }
+.admin-textarea::placeholder { color: var(--muted); }
+.admin-status-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
+}
+.admin-status-opt {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 10px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 12px;
+  color: var(--text2);
+  transition: all 0.1s;
+  user-select: none;
+}
+.admin-status-opt:hover { border-color: rgba(255,255,255,0.15); color: var(--text); }
+.admin-status-opt.sel { border-color: rgba(255,255,255,0.25); background: var(--surface3); color: var(--text); }
+.admin-status-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.admin-send-btn {
+  width: 100%;
+  padding: 11px;
+  background: var(--text);
+  color: var(--bg);
+  border: none;
+  border-radius: 8px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.admin-send-btn:hover { opacity: 0.85; }
+.admin-preview {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  padding: 10px 12px;
+  font-size: 11px;
+  color: var(--text2);
+  min-height: 36px;
+}
+.admin-preview em { color: var(--muted); font-style: italic; }
+
+/* Hide promo sidebar on small screens */
+@media (max-width: 1100px) { .promo-sidebar { display: none; } }
+/* Show promo sidebar on large screens */
+@media (min-width: 1101px) { .promo-sidebar { display: flex; } }
 </style>
 </head>
 <body>
@@ -631,6 +904,14 @@ html, body { height: 100%; margin: 0; }
   </div>
 </header>
 
+
+<!-- ── ANNOUNCE BANNER ── -->
+<div class="announce-banner" id="announceBanner">
+  <span class="announce-dot"></span>
+  <span class="announce-text" id="announceText"></span>
+  <button class="announce-close" onclick="document.getElementById('announceBanner').classList.remove('show')">×</button>
+</div>
+
 <!-- LAYOUT -->
 <div class="layout">
 
@@ -666,6 +947,12 @@ html, body { height: 100%; margin: 0; }
     <svg class="nav-icon" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm-1 7V3.5L18.5 9H13z"/></svg>
     <div class="nav-inner"><span class="nav-label"><span class="lang-fr">Docs</span><span class="lang-en" style="display:none">Docs</span></span><span class="nav-sub"><span class="lang-fr">Documentation complète</span><span class="lang-en" style="display:none">Full documentation</span></span></div>
   </a>
+  <div id="adminNavItem" style="display:none;padding:0 6px;margin-bottom:4px">
+    <a class="nav-item" style="color:#f59e0b;border:1px solid rgba(245,158,11,0.2);background:rgba(245,158,11,0.06)" onclick="openAdminPanel()">
+      <svg class="nav-icon" viewBox="0 0 24 24" style="fill:#f59e0b"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
+      <div class="nav-inner"><span class="nav-label">Admin</span></div>
+    </a>
+  </div>
   <div class="sidebar-bottom">
     <span class="plan-tag" id="plan-name"><span class="lang-fr">Gratuit</span><span class="lang-en" style="display:none">Free</span></span>
   </div>
@@ -1009,7 +1296,88 @@ html, body { height: 100%; margin: 0; }
   </div>
 </div>
 
+
+<!-- ── PROMO SIDEBAR DROITE ── -->
+<aside class="promo-sidebar" id="promoSidebar">
+
+  <!-- Card principale Discord -->
+  <div class="promo-card">
+    <span class="promo-badge">🔗 COMMUNAUTÉ</span>
+    <div class="promo-title">Rejoins le serveur 9look</div>
+    <div class="promo-desc">Annonces, mises à jour, support et accès prioritaire — tout se passe sur Discord.</div>
+    <a class="promo-btn" href="https://discord.gg/DEdQasFbqM" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.032.054a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+      Rejoindre
+    </a>
+  </div>
+
+  <div class="promo-divider"></div>
+
+  <!-- Card partenariat -->
+  <div class="promo-partner">
+    <span class="promo-partner-badge">🤝 PARTENARIAT</span>
+    <div class="promo-partner-title">Partenariat disponible</div>
+    <div class="promo-partner-desc">Tu as un serveur ou un projet ? On est ouverts aux échanges de visibilité.</div>
+    <a class="promo-partner-btn" href="https://discord.gg/DEdQasFbqM" target="_blank" rel="noopener">
+      <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+      Nous contacter
+    </a>
+  </div>
+
+</aside>
+
 </div><!-- /layout -->
+
+<!-- ── PANEL ADMIN ── -->
+<div class="admin-panel-overlay" id="adminPanelOverlay" onclick="if(event.target===this)closeAdminPanel()">
+  <div class="admin-panel">
+    <div class="admin-panel-hd">
+      <div class="admin-panel-title">
+        <span class="crown">👑</span>
+        Panel Admin
+      </div>
+      <button class="admin-close-btn" onclick="closeAdminPanel()">×</button>
+    </div>
+
+    <!-- Annonce -->
+    <div>
+      <div class="admin-section-label">Message d'annonce</div>
+      <textarea class="admin-textarea" id="adminAnnounceMsg" placeholder="Ex: Maintenance prévue ce soir à 22h..." oninput="updateAdminPreview()"></textarea>
+    </div>
+
+    <!-- Statut -->
+    <div>
+      <div class="admin-section-label">Statut du service</div>
+      <div class="admin-status-grid">
+        <div class="admin-status-opt sel" id="astOp" data-val="operational" onclick="selectAdminStatus(this)">
+          <span class="admin-status-dot" style="background:#22c55e"></span> Opérationnel
+        </div>
+        <div class="admin-status-opt" id="astWarn" data-val="warning" onclick="selectAdminStatus(this)">
+          <span class="admin-status-dot" style="background:#eab308"></span> Dégradé
+        </div>
+        <div class="admin-status-opt" id="astMaint" data-val="maintenance" onclick="selectAdminStatus(this)">
+          <span class="admin-status-dot" style="background:#ef4444"></span> Maintenance
+        </div>
+        <div class="admin-status-opt" id="astInfo" data-val="info" onclick="selectAdminStatus(this)">
+          <span class="admin-status-dot" style="background:#818cf8"></span> Info
+        </div>
+      </div>
+    </div>
+
+    <!-- Aperçu -->
+    <div>
+      <div class="admin-section-label">Aperçu</div>
+      <div class="admin-preview" id="adminPreview"><em>Aucun message</em></div>
+    </div>
+
+    <!-- Boutons -->
+    <div style="display:flex;gap:8px">
+      <button class="admin-send-btn" onclick="sendAdminAnnounce()" style="flex:1">📢 Publier l'annonce</button>
+      <button class="admin-send-btn" onclick="clearAdminAnnounce()" style="flex:0 0 auto;background:var(--surface2);color:var(--text2);border:1px solid var(--border)">Effacer</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast-container" id="toastContainer"></div>
 
 
@@ -1416,13 +1784,93 @@ async function init() {
   setInterval(checkWorkerState, 8000);
   setInterval(loadLeaderboard, 15000);
   showWelcomeIfNew();
+  loadAnnounce();
+  setInterval(loadAnnounce, 30000);
+}
+
+
+// ── ADMIN PANEL ──────────────────────────────────────────────────────────────
+var adminSelectedStatus = 'operational';
+
+function openAdminPanel() {
+  document.getElementById('adminPanelOverlay').classList.add('open');
+  document.getElementById('adminAnnounceMsg').focus();
+}
+function closeAdminPanel() {
+  document.getElementById('adminPanelOverlay').classList.remove('open');
+}
+function selectAdminStatus(el) {
+  document.querySelectorAll('.admin-status-opt').forEach(function(o){ o.classList.remove('sel'); });
+  el.classList.add('sel');
+  adminSelectedStatus = el.dataset.val;
+  updateAdminPreview();
+}
+function updateAdminPreview() {
+  var msg = document.getElementById('adminAnnounceMsg').value.trim();
+  var prev = document.getElementById('adminPreview');
+  if (!msg) { prev.innerHTML = '<em>Aucun message</em>'; return; }
+  prev.textContent = msg;
+}
+async function sendAdminAnnounce() {
+  var msg = document.getElementById('adminAnnounceMsg').value.trim();
+  try {
+    var r = await fetch('/api/admin/announce', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: msg, status: adminSelectedStatus })
+    });
+    if (r.ok) {
+      showToast('Annonce publiée !', 'ok');
+      closeAdminPanel();
+      loadAnnounce();
+    } else {
+      showToast('Erreur envoi', 'err');
+    }
+  } catch(e) {
+    showToast('Erreur réseau', 'err');
+  }
+}
+async function clearAdminAnnounce() {
+  document.getElementById('adminAnnounceMsg').value = '';
+  updateAdminPreview();
+  try {
+    await fetch('/api/admin/announce', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: '', status: 'operational' })
+    });
+    document.getElementById('announceBanner').classList.remove('show');
+    showToast('Annonce effacée', 'ok');
+    closeAdminPanel();
+  } catch(e) {}
+}
+
+// ── ANNOUNCE BANNER ───────────────────────────────────────────────────────────
+async function loadAnnounce() {
+  try {
+    var r = await fetch('/api/announce');
+    if (!r.ok) return;
+    var d = await r.json();
+    var banner = document.getElementById('announceBanner');
+    var text   = document.getElementById('announceText');
+    if (d.message && d.message.trim()) {
+      text.textContent = d.message;
+      banner.className = 'announce-banner show ' + (d.status || 'operational');
+    } else {
+      banner.classList.remove('show');
+    }
+  } catch(e) {}
 }
 
 function closeWelcome() {
   document.getElementById('welcomeModal').style.display = 'none';
+  localStorage.setItem('9look_welcomed', '1');
 }
 function showWelcomeIfNew() {
-  document.getElementById('welcomeModal').style.display = 'flex';
+  if (!localStorage.getItem('9look_welcomed')) {
+    var m = document.getElementById('welcomeModal');
+    m.style.display = 'flex';
+  }
 }
 
 
@@ -1433,6 +1881,9 @@ async function loadMe() {
     var u = await r.json();
     currentUser = u;
     var isOwner = u.id === OWNER_ID;
+    // Afficher bouton admin si owner
+    var adminNav = document.getElementById('adminNavItem');
+    if (adminNav) adminNav.style.display = isOwner ? 'block' : 'none';
     document.getElementById('topbarAvatar').src = u.avatar;
     document.getElementById('topbarName').textContent = u.username;
     if (isOwner) document.getElementById('topbarCrown').style.display = 'inline';
