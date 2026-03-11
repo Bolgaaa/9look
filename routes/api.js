@@ -206,7 +206,7 @@ router.get('/worker/status', ensureAuth, (req, res) => {
   res.json({ connected: !!workerUrl });
 });
 
-module.exports = router;
+
 
 // ── POST /api/searcher ────────────────────────────────────────────────────────
 router.post('/searcher', ensureAuth, async (req, res) => {
@@ -235,3 +235,22 @@ router.post('/searcher', ensureAuth, async (req, res) => {
     res.status(500).json({ error: 'Erreur: ' + err.message });
   }
 });
+
+// ── ADMIN ANNOUNCE ──
+let announceState = { message: '', status: 'operational' };
+
+router.get('/announce', (req, res) => {
+  res.json(announceState);
+});
+
+router.post('/admin/announce', ensureAuth, (req, res) => {
+  if (req.user.id !== OWNER_ID) return res.status(403).json({ error: 'Forbidden' });
+  const { message, status } = req.body;
+  announceState = {
+    message: (message || '').trim(),
+    status: status || 'operational'
+  };
+  res.json({ ok: true });
+});
+
+module.exports = router;
