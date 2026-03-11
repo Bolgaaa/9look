@@ -1573,17 +1573,19 @@ function renderHistory() {
   if (!searchHistory.length) {
     list.innerHTML = '<div style="font-size:12px;color:var(--muted);text-align:center;padding:20px 0">Aucune recherche encore</div>';
     return;
-  }
-  list.innerHTML = searchHistory.map(function(h) {
+   list.innerHTML = '';
+   searchHistory.forEach(function(h) {
     var ago = timeAgo(h.ts);
-    return '<div class="history-item" onclick="replaySearch(''+h.query.replace(/'/g,"\'")+'')">'
-      +'<svg width="12" height="12" fill="var(--muted)" viewBox="0 0 24 24" style="flex-shrink:0"><path d="M13 3a9 9 0 1 0 0 18A9 9 0 0 0 13 3zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg>'
+    var d = document.createElement('div');
+    d.className = 'history-item';
+    d.innerHTML = '<svg width="12" height="12" fill="var(--muted)" viewBox="0 0 24 24" style="flex-shrink:0"><path d="M13 3a9 9 0 1 0 0 18A9 9 0 0 0 13 3zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg>'
       +'<span class="history-q">'+e(h.query)+'</span>'
-      +'<span class="history-type">'+e(h.type||'—')+'</span>'
+      +'<span class="history-type">'+e(h.type||'\u2014')+'</span>'
       +(h.count ? '<span class="history-results">'+h.count+' res</span>' : '')
-      +'<span class="history-meta">'+ago+'</span>'
-      +'</div>';
-  }).join('');
+      +'<span class="history-meta">'+ago+'</span>';
+    (function(q){ d.addEventListener('click', function(){ replaySearch(q); }); })(h.query);
+    list.appendChild(d);
+  });
 }
 
 function clearHistory() {
@@ -2305,6 +2307,7 @@ function renderSearcherResults(data) {
   });
 
   showToast(total+' resultats!', 'ok');
+}
 }
 </script>
 <!-- Mobile nav overlay -->
