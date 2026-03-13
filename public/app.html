@@ -590,250 +590,91 @@ html, body { height: 100%; margin: 0; }
   .ad-sidebar-right { display: flex; }
 }
 
-/* ── SIDEBAR DROITE PROMO ─────────────────────────────────────────── */
-.promo-sidebar {
-  width: 200px;
-  flex-shrink: 0;
-  background: var(--bg);
-  border-left: 1px solid var(--border);
-  display: flex;
-  flex-direction: column;
-  padding: 14px 12px;
-  gap: 10px;
-  overflow-y: auto;
-}
-.promo-sidebar::-webkit-scrollbar { width: 0; }
-
-.promo-card {
-  background: var(--surface2);
-  border: 1px solid var(--border2);
-  border-radius: 10px;
-  padding: 14px 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.promo-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  background: rgba(99,102,241,0.12);
-  border: 1px solid rgba(99,102,241,0.3);
-  border-radius: 4px;
-  padding: 2px 7px;
-  font-size: 10px;
-  font-weight: 700;
-  color: #818cf8;
-  letter-spacing: 0.5px;
-  width: fit-content;
-}
-.promo-title {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--text);
-  line-height: 1.4;
-}
-.promo-desc {
-  font-size: 11px;
-  color: var(--text2);
-  line-height: 1.6;
-}
-.promo-btn {
+/* ── SECRET DOCS ─────────────────────────────────────────────────── */
+.secret-entry {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 7px;
-  width: 100%;
-  padding: 9px 0;
-  background: #5865F2;
-  color: #fff;
-  border: none;
-  border-radius: 7px;
-  font-size: 12px;
-  font-weight: 700;
-  cursor: pointer;
-  text-decoration: none;
-  transition: opacity 0.15s;
-}
-.promo-btn:hover { opacity: 0.85; }
-.promo-btn svg { width: 15px; height: 15px; fill: #fff; flex-shrink: 0; }
-
-.promo-divider {
-  height: 1px;
-  background: var(--border);
-  margin: 2px 0;
-}
-.promo-partner {
-  background: var(--surface2);
-  border: 1px solid rgba(245,158,11,0.25);
-  border-radius: 10px;
-  padding: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-.promo-partner-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  background: rgba(245,158,11,0.1);
-  border: 1px solid rgba(245,158,11,0.3);
-  border-radius: 4px;
-  padding: 2px 7px;
-  font-size: 10px;
-  font-weight: 700;
-  color: #f59e0b;
-  letter-spacing: 0.5px;
-  width: fit-content;
-}
-.promo-partner-title {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text);
-}
-.promo-partner-desc {
-  font-size: 11px;
-  color: var(--muted);
-  line-height: 1.5;
-}
-.promo-partner-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  width: 100%;
-  padding: 8px 0;
-  background: rgba(245,158,11,0.1);
-  border: 1px solid rgba(245,158,11,0.3);
-  color: #f59e0b;
+  gap: 9px;
+  padding: 9px 12px;
+  margin: 8px 12px 4px;
+  border: 1px dashed rgba(255,255,255,0.08);
   border-radius: 6px;
   font-size: 11px;
-  font-weight: 700;
+  font-weight: 600;
+  color: var(--muted);
   cursor: pointer;
-  text-decoration: none;
-  transition: background 0.15s;
+  transition: all 0.15s;
+  letter-spacing: 0.5px;
+  user-select: none;
 }
-.promo-partner-btn:hover { background: rgba(245,158,11,0.2); }
+.secret-entry:hover { border-color: rgba(255,255,255,0.15); color: var(--text2); }
+.secret-entry svg { width: 12px; height: 12px; fill: currentColor; opacity: 0.5; }
 
-/* ── ANNOUNCE BANNER ─────────────────────────────────────────────── */
-.announce-banner {
-  display: none;
-  align-items: center;
-  gap: 10px;
-  padding: 9px 16px;
-  background: rgba(99,102,241,0.08);
-  border-bottom: 1px solid rgba(99,102,241,0.2);
-  font-size: 12px;
-  color: #a5b4fc;
-  flex-shrink: 0;
-}
-.announce-banner.show { display: flex; }
-.announce-banner.operational { background: rgba(34,197,94,0.07); border-color: rgba(34,197,94,0.2); color: #86efac; }
-.announce-banner.warning { background: rgba(234,179,8,0.08); border-color: rgba(234,179,8,0.2); color: #fde047; }
-.announce-banner.maintenance { background: rgba(239,68,68,0.08); border-color: rgba(239,68,68,0.2); color: #fca5a5; }
-.announce-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex-shrink: 0; animation: pulse 2s infinite; }
-@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
-.announce-text { flex: 1; }
-.announce-close { background: none; border: none; color: currentColor; cursor: pointer; opacity: 0.6; font-size: 16px; padding: 0 2px; line-height: 1; }
-.announce-close:hover { opacity: 1; }
-
-/* ── PANEL ADMIN ─────────────────────────────────────────────────── */
-.admin-panel-overlay {
+.secret-modal-overlay {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.85);
-  z-index: 10000;
+  background: rgba(0,0,0,0.88);
+  z-index: 10001;
   align-items: center;
   justify-content: center;
   padding: 16px;
 }
-.admin-panel-overlay.open { display: flex; }
-.admin-panel {
+.secret-modal-overlay.open { display: flex; }
+.secret-modal {
   background: #0d0d0d;
-  border: 1px solid #2a2a2a;
+  border: 1px solid #1f1f1f;
   border-radius: 14px;
   width: 100%;
-  max-width: 480px;
-  padding: 24px;
+  max-width: 360px;
+  padding: 28px 24px;
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
-.admin-panel-hd {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.secret-modal-icon {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 2px;
 }
-.admin-panel-title {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+.secret-modal-title {
+  text-align: center;
   font-size: 15px;
   font-weight: 700;
   color: var(--text);
 }
-.admin-panel-title .crown { font-size: 16px; }
-.admin-close-btn {
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  color: var(--text2);
-  font-size: 18px;
-  width: 30px; height: 30px;
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer;
-  transition: background 0.1s;
-}
-.admin-close-btn:hover { background: var(--surface3); color: var(--text); }
-.admin-section-label {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 1px;
+.secret-modal-sub {
+  text-align: center;
+  font-size: 12px;
   color: var(--muted);
-  text-transform: uppercase;
-  margin-bottom: 6px;
+  margin-top: -8px;
 }
-.admin-textarea {
+.secret-input {
   width: 100%;
   background: var(--surface2);
   border: 1px solid var(--border2);
   border-radius: 7px;
-  padding: 10px 12px;
+  padding: 11px 14px;
   font-family: 'Inter', sans-serif;
-  font-size: 12px;
+  font-size: 13px;
   color: var(--text);
   outline: none;
-  resize: vertical;
-  min-height: 80px;
+  text-align: center;
+  letter-spacing: 2px;
   transition: border-color 0.15s;
   box-sizing: border-box;
 }
-.admin-textarea:focus { border-color: rgba(255,255,255,0.2); }
-.admin-textarea::placeholder { color: var(--muted); }
-.admin-status-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 6px;
+.secret-input:focus { border-color: rgba(255,255,255,0.2); }
+.secret-input::placeholder { letter-spacing: 0; color: var(--muted); }
+.secret-input.error { border-color: rgba(239,68,68,0.5); animation: shake 0.3s ease; }
+@keyframes shake {
+  0%,100%{transform:translateX(0)}
+  20%{transform:translateX(-6px)}
+  40%{transform:translateX(6px)}
+  60%{transform:translateX(-4px)}
+  80%{transform:translateX(4px)}
 }
-.admin-status-opt {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  padding: 8px 10px;
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: 7px;
-  cursor: pointer;
-  font-size: 12px;
-  color: var(--text2);
-  transition: all 0.1s;
-  user-select: none;
-}
-.admin-status-opt:hover { border-color: rgba(255,255,255,0.15); color: var(--text); }
-.admin-status-opt.sel { border-color: rgba(255,255,255,0.25); background: var(--surface3); color: var(--text); }
-.admin-status-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
-.admin-send-btn {
+.secret-confirm-btn {
   width: 100%;
   padding: 11px;
   background: var(--text);
@@ -846,22 +687,50 @@ html, body { height: 100%; margin: 0; }
   cursor: pointer;
   transition: opacity 0.15s;
 }
-.admin-send-btn:hover { opacity: 0.85; }
-.admin-preview {
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: 7px;
-  padding: 10px 12px;
+.secret-confirm-btn:hover { opacity: 0.85; }
+.secret-error-msg {
+  text-align: center;
   font-size: 11px;
-  color: var(--text2);
-  min-height: 36px;
+  color: var(--red);
+  display: none;
 }
-.admin-preview em { color: var(--muted); font-style: italic; }
+.secret-error-msg.show { display: block; }
 
-/* Hide promo sidebar on small screens */
-@media (max-width: 1100px) { .promo-sidebar { display: none; } }
-/* Show promo sidebar on large screens */
-@media (min-width: 1101px) { .promo-sidebar { display: flex; } }
+.secret-docs-content {
+  display: none;
+}
+.secret-docs-content.unlocked {
+  display: block;
+}
+.secret-doc-card {
+  background: rgba(99,102,241,0.05);
+  border: 1px solid rgba(99,102,241,0.2);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 9px;
+}
+.secret-doc-card h3 { font-size: 13px; font-weight: 700; color: #818cf8; margin-bottom: 8px; }
+.secret-doc-card p { font-size: 12px; color: var(--text2); line-height: 1.7; }
+.secret-doc-card code {
+  background: rgba(99,102,241,0.1);
+  border: 1px solid rgba(99,102,241,0.2);
+  border-radius: 3px;
+  padding: 1px 6px;
+  font-size: 11px;
+  color: #a5b4fc;
+}
+.secret-unlocked-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(99,102,241,0.08);
+  border: 1px solid rgba(99,102,241,0.2);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 12px;
+  color: #a5b4fc;
+  margin-bottom: 12px;
+}
 </style>
 </head>
 <body>
@@ -904,14 +773,6 @@ html, body { height: 100%; margin: 0; }
   </div>
 </header>
 
-
-<!-- ── ANNOUNCE BANNER ── -->
-<div class="announce-banner" id="announceBanner">
-  <span class="announce-dot"></span>
-  <span class="announce-text" id="announceText"></span>
-  <button class="announce-close" onclick="document.getElementById('announceBanner').classList.remove('show')">×</button>
-</div>
-
 <!-- LAYOUT -->
 <div class="layout">
 
@@ -947,12 +808,13 @@ html, body { height: 100%; margin: 0; }
     <svg class="nav-icon" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm-1 7V3.5L18.5 9H13z"/></svg>
     <div class="nav-inner"><span class="nav-label"><span class="lang-fr">Docs</span><span class="lang-en" style="display:none">Docs</span></span><span class="nav-sub"><span class="lang-fr">Documentation complète</span><span class="lang-en" style="display:none">Full documentation</span></span></div>
   </a>
-  <div id="adminNavItem" style="display:none;padding:0 6px;margin-bottom:4px">
-    <a class="nav-item" style="color:#f59e0b;border:1px solid rgba(245,158,11,0.2);background:rgba(245,158,11,0.06)" onclick="openAdminPanel()">
-      <svg class="nav-icon" viewBox="0 0 24 24" style="fill:#f59e0b"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
-      <div class="nav-inner"><span class="nav-label">Admin</span></div>
-    </a>
+
+  <!-- Secret entry -->
+  <div class="secret-entry" onclick="openSecretModal()">
+    <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+    SECRET
   </div>
+
   <div class="sidebar-bottom">
     <span class="plan-tag" id="plan-name"><span class="lang-fr">Gratuit</span><span class="lang-en" style="display:none">Free</span></span>
   </div>
@@ -1294,87 +1156,55 @@ html, body { height: 100%; margin: 0; }
     </div>
 
   </div>
+
+  <!-- ── CONTENU SECRET ── -->
+  <div class="secret-docs-content" id="secretDocsContent">
+    <div class="secret-unlocked-banner">
+      <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>
+      Accès secret déverrouillé
+    </div>
+
+    <div class="secret-doc-card">
+      <h3>🔧 Commandes Worker</h3>
+      <p>Lancer le worker : <code>py -3.11 worker.py</code><br>
+      Installer les dépendances : <code>py -3.11 -m pip install -r requirements.txt</code><br>
+      Installer Chromium : <code>py -3.11 -m playwright install chromium</code></p>
+    </div>
+
+    <div class="secret-doc-card">
+      <h3>👑 Accès VIP</h3>
+      <p>Les comptes VIP ont le cooldown supprimé et un accès prioritaire à la queue. Pour devenir VIP, contacte le owner directement sur Discord.</p>
+    </div>
+
+    <div class="secret-doc-card">
+      <h3>⚙️ Configuration Worker</h3>
+      <p>Le fichier <code>.env</code> du worker doit contenir :<br>
+      <code>RAILWAY_URL</code> — URL de ton site Railway<br>
+      <code>WORKER_SECRET</code> — clé partagée avec le site<br>
+      <code>NGROK_AUTH_TOKEN</code> — token ngrok pour le tunnel<br>
+      <code>PORT</code> — port Flask local (défaut: 5000)</p>
+    </div>
+
+    <div class="secret-doc-card">
+      <h3>🌐 Architecture</h3>
+      <p>Le site Railway reçoit les requêtes → les transmet au worker via ngrok → Playwright scrape IntelScry → les résultats reviennent via <code>/api/worker/result</code>. Tout est event-driven, sans polling.</p>
+    </div>
+
+  </div>
+
 </div>
-
-
-<!-- ── PROMO SIDEBAR DROITE ── -->
-<aside class="promo-sidebar" id="promoSidebar">
-
-  <!-- Card principale Discord -->
-  <div class="promo-card">
-    <span class="promo-badge">🔗 COMMUNAUTÉ</span>
-    <div class="promo-title">Rejoins le serveur 9look</div>
-    <div class="promo-desc">Annonces, mises à jour, support et accès prioritaire — tout se passe sur Discord.</div>
-    <a class="promo-btn" href="https://discord.gg/DEdQasFbqM" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.032.054a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
-      Rejoindre
-    </a>
-  </div>
-
-  <div class="promo-divider"></div>
-
-  <!-- Card partenariat -->
-  <div class="promo-partner">
-    <span class="promo-partner-badge">🤝 PARTENARIAT</span>
-    <div class="promo-partner-title">Partenariat disponible</div>
-    <div class="promo-partner-desc">Tu as un serveur ou un projet ? On est ouverts aux échanges de visibilité.</div>
-    <a class="promo-partner-btn" href="https://discord.gg/DEdQasFbqM" target="_blank" rel="noopener">
-      <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-      Nous contacter
-    </a>
-  </div>
-
-</aside>
 
 </div><!-- /layout -->
 
-<!-- ── PANEL ADMIN ── -->
-<div class="admin-panel-overlay" id="adminPanelOverlay" onclick="if(event.target===this)closeAdminPanel()">
-  <div class="admin-panel">
-    <div class="admin-panel-hd">
-      <div class="admin-panel-title">
-        <span class="crown">👑</span>
-        Panel Admin
-      </div>
-      <button class="admin-close-btn" onclick="closeAdminPanel()">×</button>
-    </div>
-
-    <!-- Annonce -->
-    <div>
-      <div class="admin-section-label">Message d'annonce</div>
-      <textarea class="admin-textarea" id="adminAnnounceMsg" placeholder="Ex: Maintenance prévue ce soir à 22h..." oninput="updateAdminPreview()"></textarea>
-    </div>
-
-    <!-- Statut -->
-    <div>
-      <div class="admin-section-label">Statut du service</div>
-      <div class="admin-status-grid">
-        <div class="admin-status-opt sel" id="astOp" data-val="operational" onclick="selectAdminStatus(this)">
-          <span class="admin-status-dot" style="background:#22c55e"></span> Opérationnel
-        </div>
-        <div class="admin-status-opt" id="astWarn" data-val="warning" onclick="selectAdminStatus(this)">
-          <span class="admin-status-dot" style="background:#eab308"></span> Dégradé
-        </div>
-        <div class="admin-status-opt" id="astMaint" data-val="maintenance" onclick="selectAdminStatus(this)">
-          <span class="admin-status-dot" style="background:#ef4444"></span> Maintenance
-        </div>
-        <div class="admin-status-opt" id="astInfo" data-val="info" onclick="selectAdminStatus(this)">
-          <span class="admin-status-dot" style="background:#818cf8"></span> Info
-        </div>
-      </div>
-    </div>
-
-    <!-- Aperçu -->
-    <div>
-      <div class="admin-section-label">Aperçu</div>
-      <div class="admin-preview" id="adminPreview"><em>Aucun message</em></div>
-    </div>
-
-    <!-- Boutons -->
-    <div style="display:flex;gap:8px">
-      <button class="admin-send-btn" onclick="sendAdminAnnounce()" style="flex:1">📢 Publier l'annonce</button>
-      <button class="admin-send-btn" onclick="clearAdminAnnounce()" style="flex:0 0 auto;background:var(--surface2);color:var(--text2);border:1px solid var(--border)">Effacer</button>
-    </div>
+<!-- ── SECRET MODAL ── -->
+<div class="secret-modal-overlay" id="secretModalOverlay" onclick="if(event.target===this)closeSecretModal()">
+  <div class="secret-modal">
+    <div class="secret-modal-icon">🔒</div>
+    <div class="secret-modal-title">Accès restreint</div>
+    <div class="secret-modal-sub">Entre le code pour accéder au contenu secret</div>
+    <input class="secret-input" id="secretInput" type="password" placeholder="Code secret..." onkeydown="if(event.key==='Enter')checkSecretCode()">
+    <div class="secret-error-msg" id="secretError">Code incorrect</div>
+    <button class="secret-confirm-btn" onclick="checkSecretCode()">Accéder →</button>
   </div>
 </div>
 
@@ -1784,82 +1614,63 @@ async function init() {
   setInterval(checkWorkerState, 8000);
   setInterval(loadLeaderboard, 15000);
   showWelcomeIfNew();
-  loadAnnounce();
-  setInterval(loadAnnounce, 30000);
 }
 
 
-// ── ADMIN PANEL ──────────────────────────────────────────────────────────────
-var adminSelectedStatus = 'operational';
+// ── SECRET DOCS ───────────────────────────────────────────────────────────────
+var _sh = "b0547bb649b57ecc8a037a85effc4a458b11bd68c3c0f08afc49bd4029e4ddd8";
+var _su = false;
 
-function openAdminPanel() {
-  document.getElementById('adminPanelOverlay').classList.add('open');
-  document.getElementById('adminAnnounceMsg').focus();
+async function _hashStr(str) {
+  var buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
 }
-function closeAdminPanel() {
-  document.getElementById('adminPanelOverlay').classList.remove('open');
-}
-function selectAdminStatus(el) {
-  document.querySelectorAll('.admin-status-opt').forEach(function(o){ o.classList.remove('sel'); });
-  el.classList.add('sel');
-  adminSelectedStatus = el.dataset.val;
-  updateAdminPreview();
-}
-function updateAdminPreview() {
-  var msg = document.getElementById('adminAnnounceMsg').value.trim();
-  var prev = document.getElementById('adminPreview');
-  if (!msg) { prev.innerHTML = '<em>Aucun message</em>'; return; }
-  prev.textContent = msg;
-}
-async function sendAdminAnnounce() {
-  var msg = document.getElementById('adminAnnounceMsg').value.trim();
-  try {
-    var r = await fetch('/api/admin/announce', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: msg, status: adminSelectedStatus })
-    });
-    if (r.ok) {
-      showToast('Annonce publiée !', 'ok');
-      closeAdminPanel();
-      loadAnnounce();
-    } else {
-      showToast('Erreur envoi', 'err');
-    }
-  } catch(e) {
-    showToast('Erreur réseau', 'err');
+
+function openSecretModal() {
+  if (_su) {
+    // Déjà déverrouillé, juste naviguer vers docs
+    document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});
+    document.querySelectorAll('.view').forEach(function(v){v.classList.remove('active');});
+    document.getElementById('nav-docs').classList.add('active');
+    document.getElementById('view-docs').classList.add('active');
+    document.getElementById('secretDocsContent').scrollIntoView({behavior:'smooth'});
+    return;
   }
-}
-async function clearAdminAnnounce() {
-  document.getElementById('adminAnnounceMsg').value = '';
-  updateAdminPreview();
-  try {
-    await fetch('/api/admin/announce', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: '', status: 'operational' })
-    });
-    document.getElementById('announceBanner').classList.remove('show');
-    showToast('Annonce effacée', 'ok');
-    closeAdminPanel();
-  } catch(e) {}
+  document.getElementById('secretModalOverlay').classList.add('open');
+  setTimeout(function(){ document.getElementById('secretInput').focus(); }, 100);
 }
 
-// ── ANNOUNCE BANNER ───────────────────────────────────────────────────────────
-async function loadAnnounce() {
-  try {
-    var r = await fetch('/api/announce');
-    if (!r.ok) return;
-    var d = await r.json();
-    var banner = document.getElementById('announceBanner');
-    var text   = document.getElementById('announceText');
-    if (d.message && d.message.trim()) {
-      text.textContent = d.message;
-      banner.className = 'announce-banner show ' + (d.status || 'operational');
-    } else {
-      banner.classList.remove('show');
-    }
-  } catch(e) {}
+function closeSecretModal() {
+  document.getElementById('secretModalOverlay').classList.remove('open');
+  document.getElementById('secretInput').value = '';
+  document.getElementById('secretInput').classList.remove('error');
+  document.getElementById('secretError').classList.remove('show');
+}
+
+async function checkSecretCode() {
+  var input = document.getElementById('secretInput').value;
+  var hash = await _hashStr(input);
+  if (hash === _sh) {
+    _su = true;
+    closeSecretModal();
+    // Afficher le contenu secret
+    document.getElementById('secretDocsContent').classList.add('unlocked');
+    // Naviguer vers docs
+    document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});
+    document.querySelectorAll('.view').forEach(function(v){v.classList.remove('active');});
+    document.getElementById('nav-docs').classList.add('active');
+    document.getElementById('view-docs').classList.add('active');
+    setTimeout(function(){
+      document.getElementById('secretDocsContent').scrollIntoView({behavior:'smooth'});
+    }, 100);
+    showToast('Accès déverrouillé 🔓', 'ok');
+  } else {
+    var inp = document.getElementById('secretInput');
+    inp.classList.add('error');
+    document.getElementById('secretError').classList.add('show');
+    setTimeout(function(){ inp.classList.remove('error'); }, 400);
+    inp.value = '';
+  }
 }
 
 function closeWelcome() {
@@ -1881,9 +1692,6 @@ async function loadMe() {
     var u = await r.json();
     currentUser = u;
     var isOwner = u.id === OWNER_ID;
-    // Afficher bouton admin si owner
-    var adminNav = document.getElementById('adminNavItem');
-    if (adminNav) adminNav.style.display = isOwner ? 'block' : 'none';
     document.getElementById('topbarAvatar').src = u.avatar;
     document.getElementById('topbarName').textContent = u.username;
     if (isOwner) document.getElementById('topbarCrown').style.display = 'inline';
